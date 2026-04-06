@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoinPal — Payment Links</title>
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/sidebar.css">
+<link rel="stylesheet" href="../css/topbar.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+/* Page-specific styles */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.page-title { font-size: 22px; font-weight: 700; color: var(--grey-900); }
+.page-header-actions { display: flex; gap: 10px; }
+
+/* Stat row override for 3 columns */
+.stat-row.three-col { grid-template-columns: repeat(3, 1fr); }
+
+/* Action button group in table */
+.action-btn-group { display: flex; gap: 4px; }
+.action-btn-icon {
+    background: none; border: 1px solid var(--grey-200); border-radius: var(--radius-sm);
+    cursor: pointer; color: var(--grey-500); font-size: 14px;
+    width: 30px; height: 30px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: var(--transition-fast);
+}
+.action-btn-icon:hover { background: var(--grey-50); border-color: var(--grey-300); color: var(--grey-700); }
+.action-btn-icon svg { width: 14px; height: 14px; }
+
+/* Status: disabled variant */
+.status-disabled { background: var(--grey-100); color: var(--grey-500); }
+.status-disabled .status-dot { background: var(--grey-400); }
+
+/* Form section inside drawer */
+.form-section { margin-bottom: 24px; }
+.form-section-title {
+    font-size: 13px; font-weight: 700; color: var(--grey-900);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--grey-200);
+}
+.form-label-optional { color: var(--grey-400); font-weight: 400; font-size: 12px; }
+
+/* Input group for amount + currency */
+.amount-group { display: flex; gap: 8px; }
+.amount-group .form-input { flex: 1; }
+.amount-group select {
+    padding: 10px 14px; border: 1px solid var(--grey-200); border-radius: var(--radius-sm);
+    font-size: 14px; background: var(--grey-50); color: var(--grey-700); font-weight: 500;
+    cursor: pointer; outline: none;
+}
+
+/* Chip icon */
+.chip-icon {
+    width: 18px; height: 18px; display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+}
+
+/* Collapsible section */
+.collapsible-header {
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+    padding: 0; background: none; border: none;
+    font-size: 13px; font-weight: 700; color: var(--grey-900);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    width: 100%; margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--grey-200);
+}
+.collapsible-chevron {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 16px; height: 16px; transition: transform 0.2s;
+}
+.collapsible-header.collapsed .collapsible-chevron { transform: rotate(-90deg); }
+.collapsible-content { display: block; }
+.collapsible-header.collapsed ~ .collapsible-content { display: none; }
+
+/* Toggle group */
+.toggle-group { display: flex; align-items: center; gap: 12px; }
+.toggle-group span { font-size: 14px; color: var(--grey-600); }
+
+/* Key-value pair for metadata */
+.kv-pair { display: flex; gap: 8px; margin-bottom: 12px; }
+.kv-input {
+    flex: 1; padding: 10px 14px; border: 1px solid var(--grey-200);
+    border-radius: var(--radius-sm); font-size: 14px; color: var(--grey-900);
+    outline: none; background: white;
+}
+.kv-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.kv-remove {
+    background: none; border: none; color: var(--grey-400);
+    cursor: pointer; font-size: 18px; padding: 0; width: 32px;
+    display: flex; align-items: center; justify-content: center;
+}
+.kv-remove:hover { color: var(--danger); }
+.add-field-link {
+    font-size: 14px; color: var(--primary); text-decoration: none;
+    cursor: pointer; font-weight: 500;
+}
+.add-field-link:hover { text-decoration: underline; }
+
+/* Preview card */
+.preview-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: var(--radius); padding: 20px; color: white; margin-top: 20px;
+}
+.preview-label {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.5px; opacity: 0.8; margin-bottom: 8px;
+}
+.preview-amount { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+.preview-currencies { display: flex; gap: 8px; margin-bottom: 16px; }
+.preview-currency-icon {
+    width: 28px; height: 28px; background: rgba(255,255,255,0.2);
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 12px; font-weight: 600;
+}
+.preview-button {
+    background: white; color: #667eea; border: none; border-radius: 6px;
+    padding: 10px 20px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 12px;
+}
+
+/* Table col helpers */
+.col-name { font-weight: 600; color: var(--grey-900); }
+
+@media (max-width: 1024px) {
+    .stat-row.three-col { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+    .stat-row.three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar-overlay"></div>
+    <nav class="sidebar">
+        <div class="sidebar-logo">Coin<span>Pal</span></div>
+        <div class="sidebar-nav">
+            <div class="nav-section">Business</div>
+            <a href="overview.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                Overview
+            </a>
+            <a href="assets.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+                Assets
+            </a>
+            <a href="orders.html" class="nav-item active" data-toggle="orders">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                Orders
+            </a>
+            <a href="orders.html" class="nav-item nav-sub" data-group="orders">Receive</a>
+            <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
+            <a href="payment-links.html" class="nav-item nav-sub active-sub" data-group="orders">Payment Links</a>
+            <a href="checkout.html" class="nav-item nav-sub" data-group="orders">Checkout</a>
+            <a href="reports.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                Reports
+            </a>
+            <div class="nav-divider"></div>
+            <div class="nav-section">Manage</div>
+            <a href="store.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Store
+            </a>
+            <a href="account.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Account
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-hamburger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="breadcrumb">Orders &gt; <strong>Payment Links</strong></div>
+            </div>
+            <div class="topbar-right">
+                <div class="lang-dropdown">
+                    <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                        <span class="lang-label">EN</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="lang-menu">
+                        <div class="lang-menu-item active">English</div>
+                        <div class="lang-menu-item">简体中文</div>
+                        <div class="lang-menu-item">日本語</div>
+                        <div class="lang-menu-item">한국어</div>
+                    </div>
+                </div>
+                <div class="topbar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                    <span class="topbar-badge"></span>
+                </div>
+                <div class="topbar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                </div>
+                <div class="user-dropdown">
+                    <div class="avatar" onclick="this.parentElement.classList.toggle('open')">JX</div>
+                    <div class="user-menu">
+                        <div class="user-menu-header">
+                            <div class="user-menu-name">Jxwinter</div>
+                            <div class="user-menu-email">product.igv.test@gmail.com</div>
+                        </div>
+                        <a href="account.html" class="user-menu-item">Account Settings</a>
+                        <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Payment Links</h1>
+                <div class="page-header-actions">
+                    <button class="btn btn-primary" onclick="openDrawer('createLinkDrawer','createLinkOverlay')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                        Create Link
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stat Cards -->
+            <div class="stat-row three-col">
+                <div class="stat-card">
+                    <div class="stat-label">Active Links</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Collected</div>
+                    <div class="stat-value">$34,582.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Conversion Rate</div>
+                    <div class="stat-value">78.5%</div>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    <input type="text" placeholder="Search by name or ID...">
+                </div>
+                <select class="filter-select">
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>Expired</option>
+                    <option>Disabled</option>
+                </select>
+                <div class="date-range">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    <span>Apr 1, 2026</span>
+                    <span class="date-range-sep">-</span>
+                    <span>Apr 5, 2026</span>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-wrap">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Payments</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-name">Premium Plan</td>
+                                <td>$99.00</td>
+                                <td>USDT</td>
+                                <td><span class="status status-active"><span class="status-dot"></span>Active</span></td>
+                                <td>Mar 28, 2026</td>
+                                <td>45</td>
+                                <td>
+                                    <div class="action-btn-group">
+                                        <button class="action-btn-icon" title="Copy Link">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Show QR Code">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="4" height="4"/><path d="M18 14h4v4"/><path d="M14 18h4v4"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Edit">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="More">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-name">Monthly Subscription</td>
+                                <td>$29.99</td>
+                                <td>Multi</td>
+                                <td><span class="status status-active"><span class="status-dot"></span>Active</span></td>
+                                <td>Mar 15, 2026</td>
+                                <td>128</td>
+                                <td>
+                                    <div class="action-btn-group">
+                                        <button class="action-btn-icon" title="Copy Link">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Show QR Code">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="4" height="4"/><path d="M18 14h4v4"/><path d="M14 18h4v4"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Edit">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="More">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-name">One-time Purchase</td>
+                                <td>$250.00</td>
+                                <td>BTC</td>
+                                <td><span class="status status-expired"><span class="status-dot"></span>Expired</span></td>
+                                <td>Feb 20, 2026</td>
+                                <td>12</td>
+                                <td>
+                                    <div class="action-btn-group">
+                                        <button class="action-btn-icon" title="Copy Link">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Show QR Code">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="4" height="4"/><path d="M18 14h4v4"/><path d="M14 18h4v4"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Edit">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="More">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-name">Donation Page</td>
+                                <td>Open Amount</td>
+                                <td>Multi</td>
+                                <td><span class="status status-active"><span class="status-dot"></span>Active</span></td>
+                                <td>Mar 01, 2026</td>
+                                <td>67</td>
+                                <td>
+                                    <div class="action-btn-group">
+                                        <button class="action-btn-icon" title="Copy Link">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Show QR Code">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="4" height="4"/><path d="M18 14h4v4"/><path d="M14 18h4v4"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Edit">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="More">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-name">Event Ticket</td>
+                                <td>$45.00</td>
+                                <td>USDT</td>
+                                <td><span class="status status-disabled"><span class="status-dot"></span>Disabled</span></td>
+                                <td>Mar 10, 2026</td>
+                                <td>23</td>
+                                <td>
+                                    <div class="action-btn-group">
+                                        <button class="action-btn-icon" title="Copy Link">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Show QR Code">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="4" height="4"/><path d="M18 14h4v4"/><path d="M14 18h4v4"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="Edit">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="action-btn-icon" title="More">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Create Payment Link Drawer -->
+<div class="drawer-overlay" id="createLinkOverlay" data-drawer="createLinkDrawer"></div>
+<div class="drawer" id="createLinkDrawer">
+    <div class="drawer-header">
+        <h2 class="drawer-title">Create Payment Link</h2>
+        <div class="drawer-close" onclick="closeDrawer('createLinkDrawer','createLinkOverlay')">&times;</div>
+    </div>
+
+    <div class="drawer-content">
+        <!-- Basic Info Section -->
+        <div class="form-section">
+            <div class="form-section-title">Basic Info</div>
+            <div class="form-group">
+                <label class="form-label">Link Name</label>
+                <input type="text" class="form-input" placeholder="e.g., Premium Plan">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description <span class="form-label-optional">(optional)</span></label>
+                <textarea class="form-input" placeholder="Add details about this payment link..."></textarea>
+            </div>
+        </div>
+
+        <!-- Payment Settings Section -->
+        <div class="form-section">
+            <div class="form-section-title">Payment Settings</div>
+            <div class="form-group">
+                <label class="form-label">Amount Type</label>
+                <div class="chips-group">
+                    <button class="chip active" data-type="fixed">Fixed Amount</button>
+                    <button class="chip" data-type="open">Open Amount</button>
+                </div>
+            </div>
+            <div class="form-group" id="amountGroup">
+                <label class="form-label">Amount</label>
+                <div class="amount-group">
+                    <input type="number" class="form-input" placeholder="99.00">
+                    <select>
+                        <option>USDT</option>
+                        <option>USDC</option>
+                        <option>BTC</option>
+                        <option>ETH</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Accepted Currencies</label>
+                <div class="chips-group" id="currencyChips">
+                    <button class="chip active">
+                        <span class="chip-icon">&#8383;</span>
+                        BTC
+                    </button>
+                    <button class="chip active">
+                        <span class="chip-icon">&#926;</span>
+                        ETH
+                    </button>
+                    <button class="chip active">
+                        <span class="chip-icon">&#9670;</span>
+                        USDT
+                    </button>
+                    <button class="chip active">
+                        <span class="chip-icon">&#9670;</span>
+                        USDC
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Section -->
+        <div class="form-section">
+            <button class="collapsible-header" id="advancedToggle">
+                <span class="collapsible-chevron">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 18l6-6-6-6"/></svg>
+                </span>
+                Advanced
+            </button>
+            <div class="collapsible-content">
+                <div class="form-group">
+                    <label class="form-label">Expiration</label>
+                    <select class="form-input">
+                        <option>Never</option>
+                        <option>24 hours</option>
+                        <option>7 days</option>
+                        <option>30 days</option>
+                        <option>Custom</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Redirect URL <span class="form-label-optional">(optional)</span></label>
+                    <input type="url" class="form-input" placeholder="https://example.com/success">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Customer Email</label>
+                    <div class="toggle-group">
+                        <div class="toggle-switch" id="emailToggle"></div>
+                        <span>Require customer email</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Metadata</label>
+                    <div id="metadataContainer">
+                        <div class="kv-pair">
+                            <input type="text" class="kv-input" placeholder="Key">
+                            <input type="text" class="kv-input" placeholder="Value">
+                            <button class="kv-remove">&minus;</button>
+                        </div>
+                    </div>
+                    <a href="#" class="add-field-link" id="addMetadataBtn">+ Add Field</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="preview-card">
+            <div class="preview-label">Preview</div>
+            <div class="preview-amount">$99.00</div>
+            <div class="preview-currencies">
+                <div class="preview-currency-icon">&#8383;</div>
+                <div class="preview-currency-icon">&#926;</div>
+                <div class="preview-currency-icon">&#9670;</div>
+            </div>
+            <button class="preview-button">Pay Now</button>
+        </div>
+    </div>
+
+    <div class="drawer-footer">
+        <button class="btn btn-outline" onclick="closeDrawer('createLinkDrawer','createLinkOverlay')">Cancel</button>
+        <button class="btn btn-primary">Create Link</button>
+    </div>
+</div>
+
+<script src="../js/dropdown.js" defer></script>
+<script src="../js/drawer.js" defer></script>
+<script src="../js/sidebar.js" defer></script>
+<script>
+    // Amount type chips (radio behavior)
+    document.querySelectorAll('[data-type]').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+            document.querySelectorAll('[data-type]').forEach(function(c) { c.classList.remove('active'); });
+            chip.classList.add('active');
+        });
+    });
+
+    // Currency chips (toggle behavior)
+    var currencyChips = document.getElementById('currencyChips');
+    if (currencyChips) {
+        currencyChips.querySelectorAll('.chip').forEach(function(chip) {
+            chip.addEventListener('click', function() {
+                chip.classList.toggle('active');
+            });
+        });
+    }
+
+    // Collapsible Advanced section
+    var advancedToggle = document.getElementById('advancedToggle');
+    if (advancedToggle) {
+        advancedToggle.addEventListener('click', function() {
+            advancedToggle.classList.toggle('collapsed');
+        });
+    }
+
+    // Toggle switch
+    var emailToggle = document.getElementById('emailToggle');
+    if (emailToggle) {
+        emailToggle.addEventListener('click', function() {
+            emailToggle.classList.toggle('active');
+        });
+    }
+
+    // Add metadata field
+    var addMetadataBtn = document.getElementById('addMetadataBtn');
+    var metadataContainer = document.getElementById('metadataContainer');
+    if (addMetadataBtn && metadataContainer) {
+        addMetadataBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var newPair = document.createElement('div');
+            newPair.className = 'kv-pair';
+            newPair.innerHTML = '<input type="text" class="kv-input" placeholder="Key"><input type="text" class="kv-input" placeholder="Value"><button class="kv-remove">&minus;</button>';
+            metadataContainer.appendChild(newPair);
+            newPair.querySelector('.kv-remove').addEventListener('click', function() {
+                newPair.remove();
+            });
+        });
+    }
+
+    // Remove metadata field (initial ones)
+    document.querySelectorAll('.kv-remove').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            btn.closest('.kv-pair').remove();
+        });
+    });
+</script>
+</body>
+</html>

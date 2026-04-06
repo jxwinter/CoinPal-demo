@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Orders - CoinPal Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        /* Tabs row (page-specific since tabs sit inside card area) */
+        .tabs-bar {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--grey-100);
+            margin-bottom: 20px;
+            background: white;
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: 0 16px;
+        }
+
+        /* Approval section inside detail drawer */
+        .approval-section {
+            background: var(--yellow-bg);
+            border: 1px solid #fef08a;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .approval-banner {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--yellow);
+            margin-bottom: 16px;
+        }
+        .approval-detail {
+            margin-bottom: 12px;
+        }
+        .approval-label {
+            font-size: 12px;
+            color: var(--grey-500);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .approval-value {
+            font-size: 14px;
+            color: var(--grey-900);
+        }
+        .approval-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .approval-actions .btn {
+            flex: 1;
+        }
+
+        /* Recipient mono in table */
+        .recipient-mono {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--grey-600);
+        }
+
+        /* Actions cell in table */
+        .actions-cell {
+            display: flex;
+            gap: 6px;
+        }
+
+        /* Copy button */
+        .copy-btn {
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--primary);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .copy-btn:hover {
+            color: var(--primary-hover);
+        }
+
+        /* Export link styled as button */
+        .btn-export {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 14px;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius-sm);
+            background: white;
+            font-size: 13px;
+            color: var(--grey-700);
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        .btn-export:hover {
+            background: var(--grey-50);
+            border-color: var(--grey-300);
+        }
+
+        /* Fee summary box */
+        .fee-summary {
+            background: var(--grey-50);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 20px;
+        }
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--grey-500);
+        }
+        .fee-row + .fee-row {
+            margin-top: 8px;
+        }
+        .fee-row.total {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--grey-900);
+        }
+
+        /* CSV format box */
+        .csv-format {
+            background: var(--grey-50);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-size: 12px;
+            color: var(--grey-600);
+            font-family: var(--font-mono);
+            line-height: 1.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .page-header-actions {
+                width: 100%;
+            }
+            .page-header-actions .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay"></div>
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">Coin<span>Pal</span></div>
+            <div class="sidebar-nav">
+                <div class="nav-section">Business</div>
+                <a href="overview.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Overview
+                </a>
+                <a href="assets.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+                    Assets
+                </a>
+                <a href="orders.html" class="nav-item" data-toggle="orders">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                    Orders
+                </a>
+                <a href="orders.html" class="nav-item nav-sub" data-group="orders">Receive</a>
+                <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
+                <a href="payment-links.html" class="nav-item nav-sub" data-group="orders">Payment Links</a>
+                <a href="checkout.html" class="nav-item nav-sub" data-group="orders">Checkout</a>
+                <a href="reports.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    Reports
+                </a>
+                <div class="nav-divider"></div>
+                <div class="nav-section">Manage</div>
+                <a href="store.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Store
+                </a>
+                <a href="account.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Account
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="topbar-hamburger">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                    </button>
+                    <div class="breadcrumb"><a href="orders.html">Orders</a> &gt; <strong>Send</strong></div>
+                </div>
+                <div class="topbar-right">
+                    <div class="lang-dropdown">
+                        <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                            <span class="lang-label">EN</span>
+                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        <div class="lang-menu">
+                            <div class="lang-menu-item active">English</div>
+                            <div class="lang-menu-item">简体中文</div>
+                            <div class="lang-menu-item">日本語</div>
+                            <div class="lang-menu-item">한국어</div>
+                        </div>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                        <span class="topbar-badge"></span>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="avatar" onclick="this.parentElement.classList.toggle('open')">JX</div>
+                        <div class="user-menu">
+                            <div class="user-menu-header">
+                                <div class="user-menu-name">Jxwinter</div>
+                                <div class="user-menu-email">product.igv.test@gmail.com</div>
+                            </div>
+                            <a href="account.html" class="user-menu-item">Account Settings</a>
+                            <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h2 class="page-title">Send Orders</h2>
+                    <div class="page-header-actions">
+                        <button class="btn btn-primary" onclick="openDrawer('newPayoutDrawer','newPayoutOverlay')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            New Payout
+                        </button>
+                        <button class="btn btn-outline" onclick="openDrawer('batchPayoutDrawer','batchPayoutOverlay')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Batch Payout
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="stat-row">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Sent</div>
+                        <div class="stat-value">$56,234.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pending Approval</div>
+                        <div class="stat-value" style="color: var(--orange);">5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Processing</div>
+                        <div class="stat-value">2</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Failed</div>
+                        <div class="stat-value" style="color: var(--danger);">1</div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active">All <span class="tab-count">28</span></div>
+                    <div class="tab">Pending Approval <span class="tab-count">5</span></div>
+                    <div class="tab">Processing <span class="tab-count">2</span></div>
+                    <div class="tab">Completed <span class="tab-count">20</span></div>
+                    <div class="tab">Failed <span class="tab-count">1</span></div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                        <input type="text" placeholder="Search payout ID, recipient...">
+                    </div>
+                    <select class="filter-select">
+                        <option>All Currencies</option>
+                        <option>USDT</option>
+                        <option>BTC</option>
+                        <option>ETH</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Date range</option>
+                        <option>Today</option>
+                        <option>Last 7 days</option>
+                        <option>Last 30 days</option>
+                    </select>
+                    <div style="flex:1;"></div>
+                    <a href="reports.html" class="btn-export">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Export
+                    </a>
+                </div>
+
+                <!-- Orders Table -->
+                <div class="table-wrap">
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Payout ID</th>
+                                    <th>Recipient</th>
+                                    <th>Amount</th>
+                                    <th>Currency</th>
+                                    <th>Status</th>
+                                    <th>Submitted</th>
+                                    <th>Reviewer</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                    <td><strong>PAY-20260405-001</strong></td>
+                                    <td><span class="recipient-mono">0x7a3b...9f2e</span></td>
+                                    <td>500.00</td>
+                                    <td>USDT</td>
+                                    <td><span class="status status-pending"><span class="status-dot"></span>Pending Approval</span></td>
+                                    <td>Apr 5, 10:30</td>
+                                    <td>--</td>
+                                    <td>
+                                        <div class="actions-cell" onclick="event.stopPropagation();">
+                                            <button class="action-btn approve" onclick="approveOrder(event)">Approve</button>
+                                            <button class="action-btn reject" onclick="rejectOrder(event)">Reject</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                    <td><strong>PAY-20260404-012</strong></td>
+                                    <td><span class="recipient-mono">TQn8...kL4m</span></td>
+                                    <td>1,200.00</td>
+                                    <td>USDT</td>
+                                    <td><span class="status status-completed"><span class="status-dot"></span>Completed</span></td>
+                                    <td>Apr 4, 15:22</td>
+                                    <td>Admin</td>
+                                    <td>
+                                        <div class="actions-cell" onclick="event.stopPropagation();">
+                                            <button class="action-btn" onclick="viewOrder(event)">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                    <td><strong>PAY-20260404-008</strong></td>
+                                    <td><span class="recipient-mono">0x9c1d...4e8a</span></td>
+                                    <td>0.5</td>
+                                    <td>BTC</td>
+                                    <td><span class="status status-processing"><span class="status-dot"></span>Processing</span></td>
+                                    <td>Apr 4, 11:05</td>
+                                    <td>Admin</td>
+                                    <td>
+                                        <div class="actions-cell" onclick="event.stopPropagation();">
+                                            <button class="action-btn" onclick="viewOrder(event)">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                    <td><strong>PAY-20260403-045</strong></td>
+                                    <td><span class="recipient-mono">batch (12 recipients)</span></td>
+                                    <td>3,400.00</td>
+                                    <td>USDT</td>
+                                    <td><span class="status status-completed"><span class="status-dot"></span>Completed</span></td>
+                                    <td>Apr 3, 09:15</td>
+                                    <td>Manager</td>
+                                    <td>
+                                        <div class="actions-cell" onclick="event.stopPropagation();">
+                                            <button class="action-btn" onclick="viewOrder(event)">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                    <td><strong>PAY-20260402-032</strong></td>
+                                    <td><span class="recipient-mono">0xab2f...7c3d</span></td>
+                                    <td>2.5</td>
+                                    <td>ETH</td>
+                                    <td><span class="status status-failed"><span class="status-dot"></span>Failed</span></td>
+                                    <td>Apr 2, 14:50</td>
+                                    <td>Admin</td>
+                                    <td>
+                                        <div class="actions-cell" onclick="event.stopPropagation();">
+                                            <button class="action-btn" onclick="retryOrder(event)">Retry</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Detail Drawer -->
+    <div class="drawer-overlay" id="detailOverlay" data-drawer="detailDrawer"></div>
+    <div class="drawer" id="detailDrawer">
+        <div class="drawer-header">
+            <div class="drawer-title" style="display:flex;align-items:center;gap:12px;">
+                Payout Details
+                <span class="status status-pending"><span class="status-dot"></span>Pending Approval</span>
+            </div>
+            <button class="drawer-close" onclick="closeDrawer('detailDrawer','detailOverlay')">&times;</button>
+        </div>
+        <div class="drawer-content">
+            <!-- Hero Amount -->
+            <div class="hero-amount">
+                <div class="hero-amount-value">500.00 USDT</div>
+                <div class="hero-amount-sub">~ $500.00</div>
+            </div>
+
+            <!-- Approval Section -->
+            <div class="approval-section">
+                <div class="approval-banner">Approval Required</div>
+                <div class="approval-detail">
+                    <div class="approval-label">Submitted by</div>
+                    <div class="approval-value">operator@company.com</div>
+                </div>
+                <div class="approval-detail">
+                    <div class="approval-label">Reason</div>
+                    <div class="approval-value">Vendor payment for March services</div>
+                </div>
+                <div class="approval-actions">
+                    <button class="btn btn-success" onclick="approveOrder(event)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Approve
+                    </button>
+                    <button class="btn btn-danger" onclick="rejectOrder(event)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                        Reject
+                    </button>
+                </div>
+            </div>
+
+            <!-- Details Grid -->
+            <div class="details-grid" style="margin-bottom:24px;">
+                <div class="detail-item">
+                    <div class="detail-label">Payout ID</div>
+                    <div class="detail-value">PAY-20260405-001</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Recipient Address</div>
+                    <div class="detail-value">
+                        <span class="detail-mono">0x7a3b...9f2e</span>
+                        <button class="copy-btn" title="Copy">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"></path>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Network</div>
+                    <div class="detail-value">TRC-20</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Currency</div>
+                    <div class="detail-value">USDT</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Fee</div>
+                    <div class="detail-value">1.00 USDT</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Submitted</div>
+                    <div class="detail-value">Apr 5, 2026 10:30</div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div>
+                <div class="detail-label" style="margin-bottom:16px;">Timeline</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot completed">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Created</div>
+                            <div class="timeline-time">Apr 5, 10:30</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot current">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Pending Approval</div>
+                            <div class="timeline-time">Awaiting review</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Processing</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Completed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Payout Drawer -->
+    <div class="drawer-overlay" id="newPayoutOverlay" data-drawer="newPayoutDrawer"></div>
+    <div class="drawer" id="newPayoutDrawer">
+        <div class="drawer-header">
+            <div class="drawer-title">New Payout</div>
+            <button class="drawer-close" onclick="closeDrawer('newPayoutDrawer','newPayoutOverlay')">&times;</button>
+        </div>
+        <div class="drawer-content">
+            <div class="form-group">
+                <label class="form-label">Recipient Address</label>
+                <input type="text" class="form-input" placeholder="Enter wallet address">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Network</label>
+                <select class="form-input">
+                    <option>TRC20</option>
+                    <option>ERC20</option>
+                    <option>BTC</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Amount</label>
+                    <input type="number" class="form-input" placeholder="0.00">
+                </div>
+                <div class="form-group" style="max-width:120px;">
+                    <label class="form-label">Currency</label>
+                    <select class="form-input">
+                        <option>USDT</option>
+                        <option>USDC</option>
+                        <option>BTC</option>
+                        <option>ETH</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Memo / Note</label>
+                <textarea class="form-input" placeholder="Optional note for this payout"></textarea>
+            </div>
+            <div class="fee-summary">
+                <div class="fee-row"><span>Network Fee</span><span>~1.00 USDT</span></div>
+                <div class="fee-row total"><span>Total</span><span>501.00 USDT</span></div>
+            </div>
+            <button class="btn btn-primary btn-block" style="padding:12px;">Submit Payout</button>
+        </div>
+    </div>
+
+    <!-- Batch Payout Drawer -->
+    <div class="drawer-overlay" id="batchPayoutOverlay" data-drawer="batchPayoutDrawer"></div>
+    <div class="drawer" id="batchPayoutDrawer">
+        <div class="drawer-header">
+            <div class="drawer-title">Batch Payout</div>
+            <button class="drawer-close" onclick="closeDrawer('batchPayoutDrawer','batchPayoutOverlay')">&times;</button>
+        </div>
+        <div class="drawer-content">
+            <div class="upload-area" style="margin-bottom:20px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <div class="upload-area-title">Upload CSV File</div>
+                <div class="upload-area-hint">Drag & drop or click to browse. Max 500 records.</div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">CSV Format Requirements</label>
+                <div class="csv-format">
+                    address, amount, currency, memo<br>
+                    TRa8x..., 100.00, USDT, Payment 1<br>
+                    0x4b2..., 50.00, USDC, Payment 2
+                </div>
+            </div>
+            <a href="#" style="font-size:13px;color:var(--primary);font-weight:500;">Download CSV Template</a>
+            <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--grey-200);">
+                <button class="btn btn-primary btn-block" style="padding:12px;">Upload & Preview</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page-specific JS -->
+    <script>
+        // Order action handlers
+        function approveOrder(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            alert('Order approved successfully!');
+            closeDrawer('detailDrawer', 'detailOverlay');
+        }
+
+        function rejectOrder(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            alert('Order rejected.');
+            closeDrawer('detailDrawer', 'detailOverlay');
+        }
+
+        function viewOrder(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            openDrawer('detailDrawer', 'detailOverlay');
+        }
+
+        function retryOrder(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            alert('Retrying order...');
+            closeDrawer('detailDrawer', 'detailOverlay');
+        }
+
+        // Tab switching
+        document.addEventListener('DOMContentLoaded', function() {
+            var tabs = document.querySelectorAll('.tabs .tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+    <script src="../js/dropdown.js" defer></script>
+    <script src="../js/drawer.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+</body>
+</html>

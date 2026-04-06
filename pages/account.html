@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinPal Merchant Portal - Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        /* Page Title */
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--grey-900);
+        }
+
+        /* Content Wrapper: 2-column grid */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 30px;
+        }
+
+        /* Vertical Tabs */
+        .tabs-container {
+            background-color: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--grey-200);
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .tabs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .tab-button {
+            padding: 12px 15px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--grey-600);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: inherit;
+        }
+
+        .tab-button:hover {
+            background-color: var(--grey-100);
+            color: var(--grey-900);
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Security Score Ring */
+        .security-score {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .score-ring {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+        }
+
+        .score-ring svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .score-ring-circle {
+            fill: none;
+            stroke-width: 6;
+        }
+
+        .score-ring-bg {
+            stroke: var(--grey-200);
+        }
+
+        .score-ring-progress {
+            stroke: var(--yellow);
+            stroke-dasharray: 283;
+            stroke-dashoffset: 70.75;
+            transition: stroke-dashoffset 0.3s;
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .security-score-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .security-score-info p {
+            font-size: 14px;
+            color: var(--grey-600);
+            margin-bottom: 12px;
+        }
+
+        .improve-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .improve-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--grey-200);
+        }
+
+        .form-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-group-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--grey-900);
+        }
+
+        .form-group-secondary {
+            font-size: 13px;
+            color: var(--grey-500);
+            margin-top: 4px;
+        }
+
+        /* Card Title */
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--grey-900);
+        }
+
+        /* Role Badges */
+        .role-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .role-owner {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .role-admin {
+            background-color: var(--orange-bg);
+            color: var(--orange);
+        }
+
+        .role-operator {
+            background-color: var(--yellow-bg);
+            color: var(--yellow);
+        }
+
+        .role-viewer {
+            background-color: var(--grey-100);
+            color: var(--grey-600);
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(135deg, var(--green-bg) 0%, var(--green-light) 100%);
+            border-left: 4px solid var(--green);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .banner-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .banner-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+
+        .banner-content p {
+            font-size: 14px;
+            color: var(--grey-700);
+        }
+
+        /* Upgrade Card */
+        .upgrade-card {
+            background-color: var(--grey-50);
+            border: 2px dashed var(--grey-300);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .upgrade-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .upgrade-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+        }
+
+        .upgrade-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--grey-700);
+        }
+
+        .upgrade-list li::before {
+            content: '\2713';
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .upgrade-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--grey-200);
+            margin-top: 16px;
+        }
+
+        /* Expandable Section */
+        .expandable {
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            margin-top: 20px;
+        }
+
+        .expandable-header {
+            padding: 16px;
+            background-color: var(--grey-50);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--grey-900);
+            border: none;
+            width: 100%;
+            border-radius: var(--radius);
+            transition: background-color 0.2s;
+            font-family: inherit;
+        }
+
+        .expandable-header:hover {
+            background-color: var(--grey-100);
+        }
+
+        .expandable-content {
+            display: none;
+            padding: 16px;
+            border-top: 1px solid var(--grey-200);
+        }
+
+        .expandable-content.open {
+            display: block;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s;
+            font-size: 12px;
+        }
+
+        .expand-icon.open {
+            transform: rotate(180deg);
+        }
+
+        /* Permissions Table */
+        .permissions-grid {
+            overflow-x: auto;
+        }
+
+        .permissions-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .permissions-table th,
+        .permissions-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid var(--grey-200);
+        }
+
+        .permissions-table th:first-child,
+        .permissions-table td:first-child {
+            text-align: left;
+        }
+
+        .check-icon {
+            color: var(--green);
+        }
+
+        .cross-icon {
+            color: var(--grey-400);
+        }
+
+        /* Address Cards */
+        .address-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .address-card {
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            padding: 16px;
+            background-color: var(--grey-50);
+        }
+
+        .address-card-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--grey-900);
+            margin-bottom: 8px;
+        }
+
+        .address-card-info {
+            font-size: 12px;
+            color: var(--grey-600);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .address-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            border-top: 1px solid var(--grey-200);
+            padding-top: 12px;
+        }
+
+        .address-card-actions button {
+            flex: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs-container {
+                overflow-x: auto;
+                padding: 10px;
+            }
+
+            .tabs-list {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .tab-button {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .security-score {
+                flex-direction: column;
+            }
+
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .address-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .permissions-grid {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay"></div>
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">Coin<span>Pal</span></div>
+            <div class="sidebar-nav">
+                <div class="nav-section">Business</div>
+                <a href="overview.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Overview
+                </a>
+                <a href="assets.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+                    Assets
+                </a>
+                <a href="orders.html" class="nav-item" data-toggle="orders">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                    Orders
+                </a>
+                <a href="orders.html" class="nav-item nav-sub" data-group="orders">Receive</a>
+                <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
+                <a href="payment-links.html" class="nav-item nav-sub" data-group="orders">Payment Links</a>
+                <a href="checkout.html" class="nav-item nav-sub" data-group="orders">Checkout</a>
+                <a href="reports.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    Reports
+                </a>
+                <div class="nav-divider"></div>
+                <div class="nav-section">Manage</div>
+                <a href="store.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Store
+                </a>
+                <a href="account.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Account
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="topbar-hamburger">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                    </button>
+                    <div class="breadcrumb">Account</div>
+                </div>
+                <div class="topbar-right">
+                    <div class="lang-dropdown">
+                        <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                            <span class="lang-label">EN</span>
+                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        <div class="lang-menu">
+                            <div class="lang-menu-item active">English</div>
+                            <div class="lang-menu-item">简体中文</div>
+                            <div class="lang-menu-item">日本語</div>
+                            <div class="lang-menu-item">한국어</div>
+                        </div>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                        <span class="topbar-badge"></span>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="avatar" onclick="this.parentElement.classList.toggle('open')">JX</div>
+                        <div class="user-menu">
+                            <div class="user-menu-header">
+                                <div class="user-menu-name">Jxwinter</div>
+                                <div class="user-menu-email">product.igv.test@gmail.com</div>
+                            </div>
+                            <a href="account.html" class="user-menu-item">Account Settings</a>
+                            <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <h1 class="page-title">Account Settings</h1>
+
+                <div class="content-wrapper">
+                    <!-- LEFT TABS -->
+                    <div class="tabs-container">
+                        <div class="tabs-list">
+                            <button class="tab-button active" onclick="switchTab('security', this)">
+                                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                                <span>Security</span>
+                            </button>
+                            <button class="tab-button" onclick="switchTab('identity', this)">
+                                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                                <span>Identity (KYC)</span>
+                            </button>
+                            <button class="tab-button" onclick="switchTab('team', this)">
+                                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                                <span>Team</span>
+                            </button>
+                            <button class="tab-button" onclick="switchTab('preferences', this)">
+                                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                                <span>Preferences</span>
+                            </button>
+                            <button class="tab-button" onclick="switchTab('addressbook', this)">
+                                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                                <span>Address Book</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT CONTENT -->
+                    <div>
+                        <!-- TAB 1: SECURITY -->
+                        <div id="security" class="tab-content active">
+                            <!-- Security Score Card -->
+                            <div class="card">
+                                <div class="security-score">
+                                    <div class="score-ring">
+                                        <svg viewBox="0 0 100 100">
+                                            <circle class="score-ring-circle score-ring-bg" cx="50" cy="50" r="45"></circle>
+                                            <circle class="score-ring-circle score-ring-progress" cx="50" cy="50" r="45"></circle>
+                                        </svg>
+                                        <div class="score-text">75</div>
+                                    </div>
+                                    <div class="security-score-info">
+                                        <h3>Security Score: 75/100</h3>
+                                        <p>Your account security is moderate. Improve it by enabling additional security features.</p>
+                                        <a href="#" class="improve-link">Improve your security &rarr;</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Two-Factor Authentication Card -->
+                            <div class="card">
+                                <div class="card-title">Two-Factor Authentication</div>
+
+                                <div class="form-group">
+                                    <div>
+                                        <div class="form-group-label">Google Authenticator</div>
+                                        <div class="form-group-secondary">Authenticate with authenticator app</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <span class="status active">Enabled</span>
+                                        <button class="btn btn-outline btn-small">Disable</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div>
+                                        <div class="form-group-label">Email Verification</div>
+                                        <div class="form-group-secondary">j***@gmail.com</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <span class="status active">Enabled</span>
+                                        <button class="btn btn-outline btn-small">Change</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div>
+                                        <div class="form-group-label">Withdrawal Password</div>
+                                        <div class="form-group-secondary">Required for withdrawals</div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <span class="status active">Set</span>
+                                        <button class="btn btn-outline btn-small">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Password Card -->
+                            <div class="card">
+                                <div class="card-title">Password</div>
+                                <div class="form-group">
+                                    <div>
+                                        <div class="form-group-label">Last Changed</div>
+                                        <div class="form-group-secondary">45 days ago</div>
+                                    </div>
+                                    <button class="btn btn-primary">Change Password</button>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity Card -->
+                            <div class="card">
+                                <div class="card-title">Recent Activity</div>
+                                <div class="table-wrap">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Action</th>
+                                                <th>IP Address</th>
+                                                <th>Location</th>
+                                                <th>Device</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Apr 5, 10:30</td>
+                                                <td>Login</td>
+                                                <td>192.168.1.**</td>
+                                                <td>San Francisco, US</td>
+                                                <td>Chrome / Mac</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Apr 4, 22:15</td>
+                                                <td>Withdraw Initiated</td>
+                                                <td>192.168.1.**</td>
+                                                <td>San Francisco, US</td>
+                                                <td>Chrome / Mac</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Apr 4, 09:00</td>
+                                                <td>API Key Viewed</td>
+                                                <td>10.0.0.**</td>
+                                                <td>San Francisco, US</td>
+                                                <td>Safari / iPhone</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Apr 3, 14:22</td>
+                                                <td>Password Changed</td>
+                                                <td>192.168.1.**</td>
+                                                <td>San Francisco, US</td>
+                                                <td>Chrome / Mac</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: IDENTITY (KYC) -->
+                        <div id="identity" class="tab-content">
+                            <!-- Current Level Banner -->
+                            <div class="banner">
+                                <div class="banner-icon">&#10003;</div>
+                                <div class="banner-content">
+                                    <h3>Level 1 -- Basic Verified</h3>
+                                    <p>Daily withdrawal limit: $10,000</p>
+                                </div>
+                            </div>
+
+                            <!-- Level 2 Upgrade Card -->
+                            <div class="card">
+                                <div class="card-title">Level 2 -- Advanced</div>
+                                <div class="upgrade-card">
+                                    <div class="upgrade-title">Upgrade to Advanced</div>
+                                    <ul class="upgrade-list">
+                                        <li>Increase daily withdrawal to $100,000</li>
+                                        <li>Access premium features</li>
+                                        <li>Enhanced security monitoring</li>
+                                    </ul>
+                                    <div class="upgrade-status">
+                                        <div style="font-size: 14px; color: var(--grey-600);">
+                                            <strong style="color: var(--orange);">Not Started</strong>
+                                        </div>
+                                        <button class="btn btn-primary">Start Verification</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Verification History -->
+                            <div class="card">
+                                <div class="card-title">Verification History</div>
+                                <div style="text-align: center; padding: 40px 20px; color: var(--grey-500);">
+                                    <p>No verification history yet. Complete your first verification to see your progress here.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: TEAM -->
+                        <div id="team" class="tab-content">
+                            <div style="margin-bottom: 24px;">
+                                <button class="btn btn-primary">+ Invite Member</button>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-title">Team Members</div>
+                                <div class="table-wrap">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Status</th>
+                                                <th>Last Active</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>John Doe</td>
+                                                <td>john@example.com</td>
+                                                <td><span class="role-badge role-owner">Owner</span></td>
+                                                <td><span class="status active">Active</span></td>
+                                                <td>Now</td>
+                                                <td>
+                                                    <button class="btn btn-outline btn-small">Edit</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sarah Smith</td>
+                                                <td>sarah@example.com</td>
+                                                <td><span class="role-badge role-admin">Admin</span></td>
+                                                <td><span class="status active">Active</span></td>
+                                                <td>2 hours ago</td>
+                                                <td>
+                                                    <button class="btn btn-outline btn-small">Edit</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mike Johnson</td>
+                                                <td>mike@example.com</td>
+                                                <td><span class="role-badge role-operator">Operator</span></td>
+                                                <td><span class="status pending">Pending</span></td>
+                                                <td>Awaiting accept</td>
+                                                <td>
+                                                    <button class="btn btn-outline btn-small">Edit</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Emma Brown</td>
+                                                <td>emma@example.com</td>
+                                                <td><span class="role-badge role-viewer">Viewer</span></td>
+                                                <td><span class="status active">Active</span></td>
+                                                <td>3 days ago</td>
+                                                <td>
+                                                    <button class="btn btn-outline btn-small">Edit</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Roles & Permissions -->
+                            <div class="card">
+                                <div class="expandable">
+                                    <button class="expandable-header" onclick="toggleExpand(this)">
+                                        <span>Roles &amp; Permissions</span>
+                                        <span class="expand-icon">&#9660;</span>
+                                    </button>
+                                    <div class="expandable-content">
+                                        <div class="permissions-grid">
+                                            <table class="permissions-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Permission</th>
+                                                        <th>Owner</th>
+                                                        <th>Admin</th>
+                                                        <th>Operator</th>
+                                                        <th>Viewer</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>View Dashboard</td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Manage Assets</td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="cross-icon">&#10007;</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Process Withdrawals</td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="cross-icon">&#10007;</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Manage Users</td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="cross-icon">&#10007;</span></td>
+                                                        <td><span class="cross-icon">&#10007;</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Account Settings</td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="check-icon">&#10003;</span></td>
+                                                        <td><span class="cross-icon">&#10007;</span></td>
+                                                        <td><span class="cross-icon">&#10007;</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 4: PREFERENCES -->
+                        <div id="preferences" class="tab-content">
+                            <!-- Notifications Card -->
+                            <div class="card">
+                                <div class="card-title">Notifications</div>
+
+                                <div class="form-group">
+                                    <div class="form-group-label">Email Notifications</div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-group-label">Payment Received</div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-group-label">Payout Completed</div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-group-label">Security Alerts</div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-group-label">Marketing Messages</div>
+                                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                </div>
+                            </div>
+
+                            <!-- Language & Timezone Card -->
+                            <div class="card">
+                                <div class="card-title">Language &amp; Timezone</div>
+
+                                <div class="form-group">
+                                    <label class="form-group-label">Language</label>
+                                    <select style="padding: 8px 12px; border: 1px solid var(--grey-300); border-radius: 6px; font-size: 14px; cursor: pointer;">
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                        <option>German</option>
+                                        <option>Chinese</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-group-label">Timezone</label>
+                                    <select style="padding: 8px 12px; border: 1px solid var(--grey-300); border-radius: 6px; font-size: 14px; cursor: pointer;">
+                                        <option>(UTC-8) Pacific Time</option>
+                                        <option>(UTC-7) Mountain Time</option>
+                                        <option>(UTC-6) Central Time</option>
+                                        <option>(UTC-5) Eastern Time</option>
+                                        <option>(UTC+0) GMT</option>
+                                        <option>(UTC+1) CET</option>
+                                        <option>(UTC+8) Hong Kong</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-group-label">Date Format</label>
+                                    <select style="padding: 8px 12px; border: 1px solid var(--grey-300); border-radius: 6px; font-size: 14px; cursor: pointer;">
+                                        <option>MM/DD/YYYY</option>
+                                        <option>DD/MM/YYYY</option>
+                                        <option>YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 5: ADDRESS BOOK -->
+                        <div id="addressbook" class="tab-content">
+                            <div style="margin-bottom: 24px;">
+                                <button class="btn btn-primary">+ Add Address</button>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-title">Saved Addresses</div>
+
+                                <div class="address-cards">
+                                    <div class="address-card">
+                                        <div class="address-card-label">Bitcoin Wallet</div>
+                                        <div class="address-card-info"><strong>Currency:</strong> Bitcoin</div>
+                                        <div class="address-card-info"><strong>Network:</strong> Mainnet</div>
+                                        <div class="address-card-info"><strong>Address:</strong> 1A1z7agoat7SFsd...9xDe</div>
+                                        <div class="address-card-actions">
+                                            <button class="btn btn-outline btn-small">Edit</button>
+                                            <button class="btn btn-danger btn-small">Delete</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="address-card">
+                                        <div class="address-card-label">Ethereum Wallet</div>
+                                        <div class="address-card-info"><strong>Currency:</strong> Ethereum</div>
+                                        <div class="address-card-info"><strong>Network:</strong> Mainnet</div>
+                                        <div class="address-card-info"><strong>Address:</strong> 0x742d35Cc6634C0532925a3b844Bc...ce6f</div>
+                                        <div class="address-card-actions">
+                                            <button class="btn btn-outline btn-small">Edit</button>
+                                            <button class="btn btn-danger btn-small">Delete</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="address-card">
+                                        <div class="address-card-label">USDC Stablecoin</div>
+                                        <div class="address-card-info"><strong>Currency:</strong> USD Coin</div>
+                                        <div class="address-card-info"><strong>Network:</strong> Polygon</div>
+                                        <div class="address-card-info"><strong>Address:</strong> 0xA0b86991c6218b36c1d19D4a2...90F1</div>
+                                        <div class="address-card-actions">
+                                            <button class="btn btn-outline btn-small">Edit</button>
+                                            <button class="btn btn-danger btn-small">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fiat Accounts Coming Soon -->
+                            <div class="card">
+                                <div class="card-title">Fiat Accounts</div>
+                                <div style="text-align: center; padding: 40px 20px;">
+                                    <span class="status pending">Coming Soon</span>
+                                    <p style="margin-top: 12px; color: var(--grey-600); font-size: 14px;">
+                                        Bank transfer integration coming soon. Check back later!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/dropdown.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script>
+        function switchTab(tabName, btn) {
+            // Hide all tab contents
+            var contents = document.querySelectorAll('.tab-content');
+            contents.forEach(function(content) { content.classList.remove('active'); });
+
+            // Remove active from all buttons
+            var buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(function(button) { button.classList.remove('active'); });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active to clicked button
+            btn.classList.add('active');
+        }
+
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        function toggleExpand(header) {
+            var content = header.nextElementSibling;
+            var icon = header.querySelector('.expand-icon');
+            content.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinPal Merchant Portal - Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        /* Store Selector */
+        .store-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            border: 1px solid var(--grey-300);
+            border-radius: var(--radius);
+            background-color: white;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--grey-900);
+            transition: all 0.2s;
+        }
+
+        .store-selector:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        /* Currency Grid */
+        .currency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .currency-card {
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            background-color: white;
+            transition: all 0.2s;
+        }
+
+        .currency-card:hover {
+            border-color: var(--grey-300);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .currency-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
+        }
+
+        .currency-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--grey-900);
+            margin-bottom: 4px;
+        }
+
+        .currency-network {
+            font-size: 12px;
+            color: var(--grey-500);
+            margin-bottom: 12px;
+        }
+
+        /* Toggle Switch */
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background-color: var(--grey-300);
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .toggle.on {
+            background-color: var(--green);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .toggle.on .toggle-slider {
+            left: 22px;
+        }
+
+        /* Settlement Table */
+        .settlement-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .settlement-table th,
+        .settlement-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--grey-200);
+            font-size: 14px;
+        }
+
+        .settlement-table th {
+            background-color: var(--grey-50);
+            font-weight: 600;
+            color: var(--grey-900);
+        }
+
+        .settlement-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Slider Row */
+        .slider-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .slider-input {
+            width: 80px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--grey-200);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Warning Banner */
+        .banner {
+            background-color: var(--orange-bg);
+            border-left: 4px solid var(--orange);
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .banner-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--orange);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .banner-text {
+            font-size: 14px;
+            color: var(--grey-800);
+        }
+
+        .warning {
+            background-color: var(--yellow-bg);
+            border-left: 4px solid var(--yellow);
+            padding: 12px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            color: var(--grey-800);
+            margin-top: 12px;
+        }
+
+        /* API Field */
+        .api-field {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .api-value {
+            flex: 1;
+            padding: 10px 12px;
+            background-color: var(--grey-100);
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            color: var(--grey-700);
+            word-break: break-all;
+        }
+
+        .api-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Checkbox List */
+        .checkbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .link:hover {
+            gap: 12px;
+        }
+
+        .link-arrow {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Section Divider */
+        .section-divider {
+            height: 1px;
+            background-color: var(--grey-200);
+            margin: 24px 0;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--grey-300);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: center;
+            background-color: var(--grey-50);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .upload-icon {
+            width: 32px;
+            height: 32px;
+            color: var(--grey-600);
+            margin: 0 auto 12px;
+        }
+
+        .upload-text {
+            font-size: 14px;
+            color: var(--grey-600);
+        }
+
+        .logo-preview {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .logo-thumb {
+            width: 60px;
+            height: 60px;
+            background-color: var(--grey-100);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--grey-500);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .currency-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .api-field {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .api-buttons {
+                justify-content: flex-start;
+            }
+
+            .slider-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .slider-input {
+                width: 100%;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay"></div>
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">Coin<span>Pal</span></div>
+            <div class="sidebar-nav">
+                <div class="nav-section">Business</div>
+                <a href="overview.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Overview
+                </a>
+                <a href="assets.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+                    Assets
+                </a>
+                <a href="orders.html" class="nav-item" data-toggle="orders">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                    Orders
+                </a>
+                <a href="orders.html" class="nav-item nav-sub" data-group="orders">Receive</a>
+                <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
+                <a href="payment-links.html" class="nav-item nav-sub" data-group="orders">Payment Links</a>
+                <a href="checkout.html" class="nav-item nav-sub" data-group="orders">Checkout</a>
+                <a href="reports.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    Reports
+                </a>
+                <div class="nav-divider"></div>
+                <div class="nav-section">Manage</div>
+                <a href="store.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Store
+                </a>
+                <a href="account.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Account
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="topbar-hamburger">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                    </button>
+                    <div class="breadcrumb">Manage &gt; <strong>Store</strong></div>
+                </div>
+                <div class="topbar-right">
+                    <div class="lang-dropdown">
+                        <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                            <span class="lang-label">EN</span>
+                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        <div class="lang-menu">
+                            <div class="lang-menu-item active">English</div>
+                            <div class="lang-menu-item">简体中文</div>
+                            <div class="lang-menu-item">日本語</div>
+                            <div class="lang-menu-item">한국어</div>
+                        </div>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                        <span class="topbar-badge"></span>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="avatar" onclick="this.parentElement.classList.toggle('open')">JX</div>
+                        <div class="user-menu">
+                            <div class="user-menu-header">
+                                <div class="user-menu-name">Jxwinter</div>
+                                <div class="user-menu-email">product.igv.test@gmail.com</div>
+                            </div>
+                            <a href="account.html" class="user-menu-item">Account Settings</a>
+                            <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">Store Settings</h1>
+                    <div class="store-selector">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        </svg>
+                        My Online Shop
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(event, 'tab-store-info')">Store Info</div>
+                    <div class="tab" onclick="switchTab(event, 'tab-payment-config')">Payment Config</div>
+                    <div class="tab" onclick="switchTab(event, 'tab-flexible-payments')">Flexible Payments</div>
+                    <div class="tab" onclick="switchTab(event, 'tab-integration')">Integration</div>
+                </div>
+
+                <!-- Tab 1: Store Info -->
+                <div id="tab-store-info" class="tab-content active">
+                    <div class="card">
+                        <div class="form-group">
+                            <label class="form-label" for="store-name">Store Name</label>
+                            <input class="form-input" type="text" id="store-name" value="My Online Shop">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="store-url">Store URL</label>
+                            <input class="form-input" type="url" id="store-url" value="https://myshop.example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Logo</label>
+                            <div class="upload-area" onclick="document.getElementById('logo-input').click()">
+                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <div class="upload-text">Click to upload or drag and drop</div>
+                                <input type="file" id="logo-input" style="display: none;" accept="image/*">
+                            </div>
+                            <div class="logo-preview">
+                                <div class="logo-thumb">Logo.png</div>
+                                <div style="font-size: 13px; color: var(--grey-600);">256 KB &middot; PNG</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="industry">Industry</label>
+                            <select class="form-input" id="industry">
+                                <option selected>E-commerce</option>
+                                <option>SaaS</option>
+                                <option>Digital Services</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea class="form-input" id="description" placeholder="Describe your store..." style="resize: vertical; min-height: 100px;"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="callback-url">Callback URL</label>
+                            <input class="form-input" type="url" id="callback-url" placeholder="https://example.com/callback">
+                        </div>
+
+                        <div style="margin-top: 32px;">
+                            <button class="button button-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+                                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                    <polyline points="7 3 7 8 15 8"></polyline>
+                                </svg>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Payment Config -->
+                <div id="tab-payment-config" class="tab-content">
+                    <!-- Order Expiration -->
+                    <div class="card">
+                        <div class="card-title">Order Expiration</div>
+                        <div class="form-group">
+                            <label class="form-label" for="expiration">Payment expiration time</label>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <input class="form-input" type="number" id="expiration" value="30" min="1" style="flex: 1;">
+                                <select class="form-input" style="width: 130px;">
+                                    <option selected>Minutes</option>
+                                    <option>Hours</option>
+                                    <option>Days</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accepted Currencies -->
+                    <div class="card">
+                        <div class="card-title">Accepted Currencies</div>
+                        <div class="currency-grid">
+                            <div class="currency-card">
+                                <svg class="currency-icon" viewBox="0 0 24 24" fill="#F7931A">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 7v10m-3-5h6" stroke="white" stroke-width="2" fill="none"></path>
+                                </svg>
+                                <div class="currency-name">BTC</div>
+                                <div class="currency-network">Bitcoin</div>
+                                <div class="toggle on" onclick="toggleCurrency(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+
+                            <div class="currency-card">
+                                <svg class="currency-icon" viewBox="0 0 24 24" fill="#627EEA">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 4v7m-3-3l3 3 3-3" stroke="white" stroke-width="1.5" fill="none"></path>
+                                </svg>
+                                <div class="currency-name">ETH</div>
+                                <div class="currency-network">Ethereum</div>
+                                <div class="toggle on" onclick="toggleCurrency(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+
+                            <div class="currency-card">
+                                <svg class="currency-icon" viewBox="0 0 24 24" fill="#26A17B">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 6v12m-4-8h8" stroke="white" stroke-width="2" fill="none"></path>
+                                </svg>
+                                <div class="currency-name">USDT</div>
+                                <div class="currency-network">Tether</div>
+                                <div class="toggle on" onclick="toggleCurrency(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+
+                            <div class="currency-card">
+                                <svg class="currency-icon" viewBox="0 0 24 24" fill="#2775CA">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="6" stroke="white" stroke-width="1.5" fill="none"></circle>
+                                </svg>
+                                <div class="currency-name">USDC</div>
+                                <div class="currency-network">USD Coin</div>
+                                <div class="toggle on" onclick="toggleCurrency(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+
+                            <div class="currency-card">
+                                <svg class="currency-icon" viewBox="0 0 24 24" fill="#B8860B">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 5v14m-4-8h8" stroke="white" stroke-width="1.5" fill="none"></path>
+                                </svg>
+                                <div class="currency-name">LTC</div>
+                                <div class="currency-network">Litecoin</div>
+                                <div class="toggle" onclick="toggleCurrency(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+
+                            <div class="currency-card">
+                                <svg class="currency-icon" viewBox="0 0 24 24" fill="#EB0029">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" fill="none"></path>
+                                </svg>
+                                <div class="currency-name">TRX</div>
+                                <div class="currency-network">TRON</div>
+                                <div class="toggle" onclick="toggleCurrency(this)">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settlement Configuration -->
+                    <div class="card">
+                        <div class="card-title">Settlement Configuration</div>
+                        <p style="font-size: 14px; color: var(--grey-600); margin-bottom: 16px;">Choose which currency you receive when a payment is made</p>
+                        <div class="table-wrap">
+                            <table class="settlement-table">
+                                <thead>
+                                    <tr>
+                                        <th>Receive Currency</th>
+                                        <th>Settlement Currency</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>BTC</td>
+                                        <td>
+                                            <select class="form-input" style="max-width: 150px;">
+                                                <option selected>USDT</option>
+                                                <option>USDC</option>
+                                                <option>ETH</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>ETH</td>
+                                        <td>
+                                            <select class="form-input" style="max-width: 150px;">
+                                                <option selected>USDT</option>
+                                                <option>USDC</option>
+                                                <option>BTC</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>USDT</td>
+                                        <td>
+                                            <select class="form-input" style="max-width: 150px;">
+                                                <option selected>USDT (Stay)</option>
+                                                <option>USDC</option>
+                                                <option>BTC</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top: 24px;">
+                            <button class="button button-primary">Save Configuration</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Flexible Payments -->
+                <div id="tab-flexible-payments" class="tab-content">
+                    <div class="card">
+                        <div class="banner">
+                            <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <div class="banner-text">Handle underpayment/overpayment scenarios due to crypto price volatility</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    Enable Flexible Payments
+                                    <div class="toggle on" onclick="toggleFlexible(this)">
+                                        <div class="toggle-slider"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="section-divider"></div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="underpayment">Underpayment Threshold</label>
+                            <div style="margin-bottom: 8px; font-size: 14px; color: var(--grey-600);">Orders within this threshold auto-complete</div>
+                            <div class="slider-row">
+                                <input type="range" id="underpayment" min="0" max="20" value="5" style="flex: 1;">
+                                <input class="form-input slider-input" type="text" value="5%" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="overpayment">Overpayment Threshold</label>
+                            <div style="margin-bottom: 8px; font-size: 14px; color: var(--grey-600);">Excess amount auto-refunded or credited</div>
+                            <div class="slider-row">
+                                <input type="range" id="overpayment" min="0" max="20" value="3" style="flex: 1;">
+                                <input class="form-input slider-input" type="text" value="3%" readonly>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 32px;">
+                            <button class="button button-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Integration -->
+                <div id="tab-integration" class="tab-content">
+                    <!-- API Keys -->
+                    <div class="card">
+                        <div class="card-title">API Keys</div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label class="form-label" style="display: block; margin-bottom: 8px;">API Key</label>
+                            <div class="api-field">
+                                <div class="api-value" id="api-key-display">cpk_demo_••••••••7a3b</div>
+                                <div class="api-buttons">
+                                    <button class="button button-secondary button-small" onclick="toggleAPIVisibility('api-key')">Show</button>
+                                    <button class="button button-secondary button-small" onclick="copyToClipboard('api-key-display')">Copy</button>
+                                    <button class="button button-secondary button-small">Regenerate</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="form-label" style="display: block; margin-bottom: 8px;">API Secret</label>
+                            <div class="api-field">
+                                <div class="api-value" id="api-secret-display">sk_secret_••••••••3a8f</div>
+                                <div class="api-buttons">
+                                    <button class="button button-secondary button-small" onclick="toggleAPIVisibility('api-secret')">Show</button>
+                                    <button class="button button-secondary button-small" onclick="copyToClipboard('api-secret-display')">Copy</button>
+                                    <button class="button button-secondary button-small">Regenerate</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="warning">
+                            <strong>Warning:</strong> Regenerating keys will invalidate existing ones. Update any integrations using the old keys.
+                        </div>
+                    </div>
+
+                    <!-- Webhooks -->
+                    <div class="card">
+                        <div class="card-title">Webhooks</div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="webhook-url">Webhook URL</label>
+                            <div style="display: flex; gap: 12px;">
+                                <input class="form-input" type="url" id="webhook-url" placeholder="https://yourdomain.com/webhook" style="flex: 1;">
+                                <button class="button button-secondary">Test</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="form-label" style="display: block; margin-bottom: 12px;">Subscribe to Events</label>
+                            <div class="checkbox-list">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="evt-payment-completed" checked>
+                                    <label for="evt-payment-completed">payment.completed</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="evt-payment-failed" checked>
+                                    <label for="evt-payment-failed">payment.failed</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="evt-payout-completed" checked>
+                                    <label for="evt-payout-completed">payout.completed</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="evt-refund-issued">
+                                    <label for="evt-refund-issued">refund.issued</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="evt-settlement-completed">
+                                    <label for="evt-settlement-completed">settlement.completed</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px;">
+                            <button class="button button-primary">Save Webhook Configuration</button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="card">
+                        <div class="card-title">Quick Links</div>
+                        <div class="quick-links">
+                            <a href="#" class="link">
+                                API Documentation
+                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </a>
+                            <a href="#" class="link">
+                                Shopify Plugin
+                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </a>
+                            <a href="#" class="link">
+                                SDKs &amp; Libraries
+                                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/dropdown.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script>
+        function switchTab(event, tabId) {
+            var contents = document.querySelectorAll('.tab-content');
+            contents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleCurrency(element) {
+            element.classList.toggle('on');
+        }
+
+        function toggleFlexible(element) {
+            element.classList.toggle('on');
+        }
+
+        function toggleAPIVisibility(type) {
+            var display = document.getElementById(type + '-display');
+            var button = event.target;
+
+            if (button.textContent === 'Show') {
+                if (type === 'api-key') {
+                    display.textContent = 'cpk_demo_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx7a3b';
+                } else {
+                    display.textContent = 'sk_secret_x9y8z7a6b5c4d3e2f1g0h9i8j7k6l5m4n3o2p1q0r9s8';
+                }
+                button.textContent = 'Hide';
+            } else {
+                if (type === 'api-key') {
+                    display.textContent = 'sk_live_\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u20227a3b';
+                } else {
+                    display.textContent = 'sk_secret_\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u20223a8f';
+                }
+                button.textContent = 'Show';
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            var element = document.getElementById(elementId);
+            var text = element.textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                var button = event.target;
+                var originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(function() {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var underpaymentSlider = document.getElementById('underpayment');
+            if (underpaymentSlider) {
+                underpaymentSlider.addEventListener('input', function() {
+                    this.parentElement.querySelector('.slider-input').value = this.value + '%';
+                });
+            }
+
+            var overpaymentSlider = document.getElementById('overpayment');
+            if (overpaymentSlider) {
+                overpaymentSlider.addEventListener('input', function() {
+                    this.parentElement.querySelector('.slider-input').value = this.value + '%';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

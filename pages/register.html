@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinPal - Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body class="auth-page">
+
+<!-- Left Brand Panel -->
+<div class="brand-panel">
+    <div class="brand-content">
+        <div class="brand-logo">Coin<span>Pal</span></div>
+        <div class="brand-tagline">Join thousands of merchants accepting crypto payments worldwide</div>
+
+        <div class="brand-stats">
+            <div class="brand-stat">
+                <div class="brand-stat-value">10K+</div>
+                <div class="brand-stat-label">Merchants</div>
+            </div>
+            <div class="brand-stat">
+                <div class="brand-stat-value">$2B+</div>
+                <div class="brand-stat-label">Processed</div>
+            </div>
+            <div class="brand-stat">
+                <div class="brand-stat-value">50+</div>
+                <div class="brand-stat-label">Currencies</div>
+            </div>
+        </div>
+
+        <div class="brand-trust">
+            <div class="brand-trust-label">Trusted & Certified</div>
+            <div class="trust-badges">
+                <div class="trust-badge">SOC 2</div>
+                <div class="trust-badge">PCI DSS</div>
+                <div class="trust-badge">ISO 27001</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Right Form Panel -->
+<div class="form-panel">
+    <div class="form-container wide">
+
+        <!-- Language Switcher -->
+        <div class="auth-lang">
+            <div class="lang-dropdown">
+                <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                    EN
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="lang-menu">
+                    <div class="lang-menu-item active">English</div>
+                    <div class="lang-menu-item">简体中文</div>
+                    <div class="lang-menu-item">日本語</div>
+                    <div class="lang-menu-item">한국어</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Account Info -->
+        <div id="step1View">
+            <div class="auth-header">
+                <h1>Create your account</h1>
+                <p>Start accepting crypto payments in minutes</p>
+            </div>
+
+            <div class="steps-indicator">
+                <div class="step active"><div class="step-circle">1</div><span class="step-label">Account</span></div>
+                <div class="step-line"></div>
+                <div class="step"><div class="step-circle">2</div><span class="step-label">Business</span></div>
+                <div class="step-line"></div>
+                <div class="step"><div class="step-circle">3</div><span class="step-label">Verify</span></div>
+            </div>
+
+            <div id="step1Error" class="msg-error">
+                <span id="step1ErrorText"></span>
+            </div>
+
+            <form onsubmit="goToStep2(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="regFirstName">First name</label>
+                        <input type="text" id="regFirstName" class="form-input" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="regLastName">Last name</label>
+                        <input type="text" id="regLastName" class="form-input" placeholder="Doe" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regEmail">Business email</label>
+                    <input type="email" id="regEmail" class="form-input" placeholder="name@company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regPassword">Password</label>
+                    <div class="auth-input-wrapper">
+                        <input type="password" id="regPassword" class="form-input" placeholder="At least 8 characters" required minlength="8" oninput="checkPasswordStrength(this.value)" style="padding-right:42px;">
+                        <button type="button" class="toggle-pw" onclick="togglePassword('regPassword', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                    <div class="pw-strength">
+                        <div class="pw-bar" id="str1"></div>
+                        <div class="pw-bar" id="str2"></div>
+                        <div class="pw-bar" id="str3"></div>
+                        <div class="pw-bar" id="str4"></div>
+                    </div>
+                    <div class="pw-text" id="strengthText"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regConfirmPassword">Confirm password</label>
+                    <div class="auth-input-wrapper">
+                        <input type="password" id="regConfirmPassword" class="form-input" placeholder="Re-enter your password" required style="padding-right:42px;">
+                        <button type="button" class="toggle-pw" onclick="togglePassword('regConfirmPassword', this)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Continue</button>
+            </form>
+
+            <div class="auth-divider">or sign up with</div>
+
+            <div class="social-btns">
+                <button class="social-btn">
+                    <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                    Google
+                </button>
+                <button class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="#333"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </button>
+            </div>
+
+            <div class="auth-prompt">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+
+        <!-- Step 2: Business Info -->
+        <div id="step2View" style="display:none;">
+            <div class="auth-header">
+                <h1>Business details</h1>
+                <p>Tell us about your business</p>
+            </div>
+
+            <div class="steps-indicator">
+                <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label">Account</span></div>
+                <div class="step-line done"></div>
+                <div class="step active"><div class="step-circle">2</div><span class="step-label">Business</span></div>
+                <div class="step-line"></div>
+                <div class="step"><div class="step-circle">3</div><span class="step-label">Verify</span></div>
+            </div>
+
+            <form onsubmit="goToStep3(event)">
+                <div class="form-group">
+                    <label class="form-label" for="regCompany">Company name</label>
+                    <input type="text" id="regCompany" class="form-input" placeholder="Your company or store name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regWebsite">Website URL</label>
+                    <input type="url" id="regWebsite" class="form-input" placeholder="https://yourstore.com">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="regIndustry">Industry</label>
+                        <select id="regIndustry" class="form-input" required>
+                            <option value="" disabled selected>Select industry</option>
+                            <option>E-commerce</option>
+                            <option>SaaS</option>
+                            <option>Gaming</option>
+                            <option>Digital Goods</option>
+                            <option>Marketplace</option>
+                            <option>Financial Services</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="regCountry">Country</label>
+                        <select id="regCountry" class="form-input" required>
+                            <option value="" disabled selected>Select country</option>
+                            <option>United States</option>
+                            <option>United Kingdom</option>
+                            <option>Singapore</option>
+                            <option>Hong Kong</option>
+                            <option>Japan</option>
+                            <option>Germany</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regVolume">Expected monthly volume</label>
+                    <select id="regVolume" class="form-input">
+                        <option value="" disabled selected>Select range</option>
+                        <option>Less than $10,000</option>
+                        <option>$10,000 - $50,000</option>
+                        <option>$50,000 - $200,000</option>
+                        <option>$200,000 - $1,000,000</option>
+                        <option>More than $1,000,000</option>
+                    </select>
+                </div>
+
+                <div style="display:flex;gap:12px;margin-top:4px;">
+                    <button type="button" class="btn btn-outline" style="flex:1;" onclick="backToStep1()">&larr; Back</button>
+                    <button type="submit" class="btn btn-primary" style="flex:1;">Continue</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Step 3: Email Verification -->
+        <div id="step3View" style="display:none;">
+            <div class="code-view">
+                <div class="steps-indicator" style="margin-bottom:28px;">
+                    <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label">Account</span></div>
+                    <div class="step-line done"></div>
+                    <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label">Business</span></div>
+                    <div class="step-line done"></div>
+                    <div class="step active"><div class="step-circle">3</div><span class="step-label">Verify</span></div>
+                </div>
+
+                <div class="code-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+                </div>
+                <h1 style="font-size:26px;font-weight:800;color:var(--grey-900);">Verify your email</h1>
+                <p style="margin-top:8px;font-size:15px;color:var(--grey-500);">We've sent a verification code to <strong id="verifyEmailDisplay">your email</strong></p>
+            </div>
+
+            <div id="verifyError" class="msg-error" style="margin-top:16px;">
+                Invalid code. Please try again.
+            </div>
+
+            <div id="verifySuccess" class="msg-success" style="margin-top:16px;">
+                Email verified! Redirecting to dashboard...
+            </div>
+
+            <div class="code-inputs">
+                <input type="text" class="code-input" maxlength="1" oninput="handleRegCodeInput(this,0)" onkeydown="handleRegCodeKeydown(event,0)">
+                <input type="text" class="code-input" maxlength="1" oninput="handleRegCodeInput(this,1)" onkeydown="handleRegCodeKeydown(event,1)">
+                <input type="text" class="code-input" maxlength="1" oninput="handleRegCodeInput(this,2)" onkeydown="handleRegCodeKeydown(event,2)">
+                <input type="text" class="code-input" maxlength="1" oninput="handleRegCodeInput(this,3)" onkeydown="handleRegCodeKeydown(event,3)">
+                <input type="text" class="code-input" maxlength="1" oninput="handleRegCodeInput(this,4)" onkeydown="handleRegCodeKeydown(event,4)">
+                <input type="text" class="code-input" maxlength="1" oninput="handleRegCodeInput(this,5)" onkeydown="handleRegCodeKeydown(event,5)">
+            </div>
+
+            <button class="btn btn-primary btn-block" id="verifyRegBtn" onclick="handleVerifyEmail()">Verify Email</button>
+
+            <div class="resend-link" style="text-align:center;">
+                Didn't receive the code? <a href="#" onclick="event.preventDefault();alert('A new code has been sent.')">Resend</a>
+            </div>
+
+            <div style="margin-top:16px;">
+                <label class="checkbox-label" style="justify-content:center;">
+                    <input type="checkbox" id="agreeTerms" checked>
+                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                </label>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../js/dropdown.js" defer></script>
+<script>
+    function togglePassword(inputId, btn) {
+        var input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+        } else {
+            input.type = 'password';
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        }
+    }
+
+    function checkPasswordStrength(password) {
+        var bars = [document.getElementById('str1'), document.getElementById('str2'), document.getElementById('str3'), document.getElementById('str4')];
+        var text = document.getElementById('strengthText');
+        var score = 0;
+        if (password.length >= 8) score++;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+        if (/\d/.test(password)) score++;
+        if (/[^a-zA-Z0-9]/.test(password)) score++;
+        bars.forEach(function(b) { b.className = 'pw-bar'; });
+        if (password.length === 0) { text.textContent = ''; return; }
+        var levels = ['weak','weak','medium','strong','strong'];
+        var labels = ['','Weak','Fair','Good','Strong'];
+        for (var i = 0; i < score; i++) bars[i].classList.add(levels[score]);
+        text.textContent = labels[score];
+        text.style.color = score <= 1 ? 'var(--danger)' : score === 2 ? '#f59e0b' : 'var(--success)';
+    }
+
+    function goToStep2(e) {
+        e.preventDefault();
+        var pw = document.getElementById('regPassword').value;
+        var cpw = document.getElementById('regConfirmPassword').value;
+        if (pw !== cpw) {
+            document.getElementById('step1ErrorText').textContent = 'Passwords do not match.';
+            document.getElementById('step1Error').classList.add('show');
+            return;
+        }
+        document.getElementById('step1Error').classList.remove('show');
+        document.getElementById('step1View').style.display = 'none';
+        document.getElementById('step2View').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    function backToStep1() {
+        document.getElementById('step2View').style.display = 'none';
+        document.getElementById('step1View').style.display = 'block';
+    }
+
+    function goToStep3(e) {
+        e.preventDefault();
+        var email = document.getElementById('regEmail').value;
+        document.getElementById('verifyEmailDisplay').textContent = email;
+        document.getElementById('step2View').style.display = 'none';
+        document.getElementById('step3View').style.display = 'block';
+        window.scrollTo(0, 0);
+        setTimeout(function(){ document.querySelector('#step3View .code-input').focus(); }, 100);
+    }
+
+    function handleRegCodeInput(input, index) {
+        if (input.value.length === 1) {
+            var inputs = document.querySelectorAll('#step3View .code-input');
+            if (index < inputs.length - 1) inputs[index + 1].focus();
+        }
+    }
+
+    function handleRegCodeKeydown(e, index) {
+        var inputs = document.querySelectorAll('#step3View .code-input');
+        if (e.key === 'Backspace' && !inputs[index].value && index > 0) inputs[index - 1].focus();
+    }
+
+    function handleVerifyEmail() {
+        var btn = document.getElementById('verifyRegBtn');
+        btn.classList.add('btn-loading');
+        setTimeout(function() {
+            btn.classList.remove('btn-loading');
+            document.getElementById('verifySuccess').classList.add('show');
+            setTimeout(function() {
+                window.location.href = 'overview.html';
+            }, 1500);
+        }, 1200);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinPal Merchant Portal - Assets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/topbar.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        /* Hero Card */
+        .hero-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            border-radius: var(--radius);
+            padding: 32px;
+            color: white;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .hero-amount {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtext {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 10px 24px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-white:hover {
+            background: white;
+            color: #1e3a8a;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--grey-900);
+        }
+
+        /* Coin Cards Grid */
+        .coins-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .coin-card {
+            background: white;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .coin-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+        }
+
+        .coin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .coin-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .coin-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .coin-icon.btc { background: var(--orange); }
+        .coin-icon.eth { background: #6f42c1; }
+        .coin-icon.usdt { background: #26a17b; }
+        .coin-icon.usdc { background: #2775ca; }
+
+        .coin-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: var(--grey-900);
+        }
+
+        .coin-info p {
+            font-size: 12px;
+            color: var(--grey-500);
+        }
+
+        .coin-balance {
+            text-align: right;
+        }
+
+        .coin-amount {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--grey-900);
+            margin-bottom: 4px;
+        }
+
+        .coin-usd {
+            font-size: 13px;
+            color: var(--grey-500);
+        }
+
+        .coin-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--grey-100);
+        }
+
+        .action-link {
+            font-size: 12px;
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .action-link:hover {
+            color: #1d4ed8;
+        }
+
+        /* Transaction History */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            font-size: 13px;
+            width: 200px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Transaction Table */
+        .table-wrap {
+            background: white;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        .table-scroll table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .table-scroll thead {
+            background: var(--grey-50);
+            border-bottom: 1px solid var(--grey-200);
+        }
+
+        .table-scroll th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--grey-600);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .table-scroll td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--grey-100);
+            color: var(--grey-900);
+            white-space: nowrap;
+        }
+
+        .table-scroll tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-scroll tbody tr:hover {
+            background: var(--grey-50);
+        }
+
+        .tx-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .tx-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .tx-icon.deposit {
+            background: var(--green-bg);
+            color: var(--green);
+        }
+
+        .tx-icon.withdraw {
+            background: var(--red-bg);
+            color: var(--red);
+        }
+
+        .tx-icon.settlement {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .status.completed {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .status.pending {
+            background: var(--orange-bg);
+            color: var(--orange);
+        }
+
+        .status.failed {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            border-top: 1px solid var(--grey-200);
+            background: var(--grey-50);
+        }
+
+        .pagination-btn {
+            padding: 6px 10px;
+            border: 1px solid var(--grey-200);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--grey-100);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Steps */
+        .steps {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--grey-200);
+            color: var(--grey-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .step.active .step-number {
+            background: var(--primary);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            color: var(--grey-600);
+            text-transform: uppercase;
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+        }
+
+        .step-line {
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            width: 100%;
+            height: 1px;
+            background: var(--grey-200);
+            z-index: -1;
+        }
+
+        .step:first-child .step-line {
+            left: 50%;
+            width: 50%;
+        }
+
+        .step:last-child .step-line {
+            width: 50%;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--grey-700);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--grey-200);
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .network-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .network-chip {
+            padding: 8px 16px;
+            border: 2px solid var(--grey-200);
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--grey-600);
+            transition: all 0.2s;
+        }
+
+        .network-chip.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .form-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-input-group input {
+            flex: 1;
+        }
+
+        .input-action {
+            background: var(--grey-100);
+            border: 1px solid var(--grey-200);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--grey-700);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .input-action:hover {
+            background: var(--grey-200);
+        }
+
+        .form-helper {
+            font-size: 12px;
+            color: var(--grey-500);
+            margin-top: 6px;
+        }
+
+        .form-divider {
+            padding: 12px 0;
+            border-top: 1px solid var(--grey-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-divider-label {
+            font-size: 12px;
+            color: var(--grey-600);
+            font-weight: 500;
+        }
+
+        .form-divider-value {
+            font-size: 13px;
+            color: var(--grey-900);
+            font-weight: 600;
+        }
+
+        .manage-link {
+            font-size: 12px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .manage-link:hover {
+            color: #1d4ed8;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--grey-900);
+        }
+
+        /* Responsive: Coin Cards */
+        @media (max-width: 1024px) {
+            .coins-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .coins-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .hero-amount {
+                font-size: 32px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .filter-bar {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay"></div>
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">Coin<span>Pal</span></div>
+            <div class="sidebar-nav">
+                <div class="nav-section">Business</div>
+                <a href="overview.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Overview
+                </a>
+                <a href="assets.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+                    Assets
+                </a>
+                <a href="orders.html" class="nav-item" data-toggle="orders">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                    Orders
+                </a>
+                <a href="orders.html" class="nav-item nav-sub" data-group="orders">Receive</a>
+                <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
+                <a href="payment-links.html" class="nav-item nav-sub" data-group="orders">Payment Links</a>
+                <a href="checkout.html" class="nav-item nav-sub" data-group="orders">Checkout</a>
+                <a href="reports.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    Reports
+                </a>
+                <div class="nav-divider"></div>
+                <div class="nav-section">Manage</div>
+                <a href="store.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Store
+                </a>
+                <a href="account.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Account
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <button class="topbar-hamburger">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                    </button>
+                    <div class="breadcrumb">Assets</div>
+                </div>
+                <div class="topbar-right">
+                    <div class="lang-dropdown">
+                        <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                            <span class="lang-label">EN</span>
+                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        <div class="lang-menu">
+                            <div class="lang-menu-item active">English</div>
+                            <div class="lang-menu-item">简体中文</div>
+                            <div class="lang-menu-item">日本語</div>
+                            <div class="lang-menu-item">한국어</div>
+                        </div>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                        <span class="topbar-badge"></span>
+                    </div>
+                    <div class="topbar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="avatar" onclick="this.parentElement.classList.toggle('open')">JX</div>
+                        <div class="user-menu">
+                            <div class="user-menu-header">
+                                <div class="user-menu-name">Jxwinter</div>
+                                <div class="user-menu-email">product.igv.test@gmail.com</div>
+                            </div>
+                            <a href="account.html" class="user-menu-item">Account Settings</a>
+                            <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <h1 class="page-title">Assets &amp; Balance</h1>
+
+                <!-- Hero Card -->
+                <div class="hero-card">
+                    <div class="hero-content">
+                        <div class="hero-label">Total Balance</div>
+                        <div class="hero-amount">$89,432.56</div>
+                        <div class="hero-subtext">&asymp; 2.14 BTC</div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn-outline-white" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</button>
+                        <button class="btn-outline-white" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Transfer</button>
+                    </div>
+                </div>
+
+                <!-- Coin Balance Cards -->
+                <div class="section-title">Coin Balances</div>
+                <div class="coins-grid">
+                    <!-- BTC Card -->
+                    <div class="coin-card">
+                        <div class="coin-header">
+                            <div class="coin-left">
+                                <div class="coin-icon btc">&#x20bf;</div>
+                                <div class="coin-info">
+                                    <h3>Bitcoin</h3>
+                                    <p>BTC</p>
+                                </div>
+                            </div>
+                            <div class="coin-balance">
+                                <div class="coin-amount">1.2834</div>
+                                <div class="coin-usd">$45,234.56</div>
+                            </div>
+                        </div>
+                        <div class="coin-actions">
+                            <a href="#" class="action-link">Deposit</a>
+                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                        </div>
+                    </div>
+
+                    <!-- ETH Card -->
+                    <div class="coin-card">
+                        <div class="coin-header">
+                            <div class="coin-left">
+                                <div class="coin-icon eth">&Xi;</div>
+                                <div class="coin-info">
+                                    <h3>Ethereum</h3>
+                                    <p>ETH</p>
+                                </div>
+                            </div>
+                            <div class="coin-balance">
+                                <div class="coin-amount">12.5621</div>
+                                <div class="coin-usd">$22,108.32</div>
+                            </div>
+                        </div>
+                        <div class="coin-actions">
+                            <a href="#" class="action-link">Deposit</a>
+                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                        </div>
+                    </div>
+
+                    <!-- USDT Card -->
+                    <div class="coin-card">
+                        <div class="coin-header">
+                            <div class="coin-left">
+                                <div class="coin-icon usdt">&#x20ae;</div>
+                                <div class="coin-info">
+                                    <h3>Tether</h3>
+                                    <p>USDT</p>
+                                </div>
+                            </div>
+                            <div class="coin-balance">
+                                <div class="coin-amount">18,456.78</div>
+                                <div class="coin-usd">$18,456.78</div>
+                            </div>
+                        </div>
+                        <div class="coin-actions">
+                            <a href="#" class="action-link">Deposit</a>
+                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                        </div>
+                    </div>
+
+                    <!-- USDC Card -->
+                    <div class="coin-card">
+                        <div class="coin-header">
+                            <div class="coin-left">
+                                <div class="coin-icon usdc">&#x25ce;</div>
+                                <div class="coin-info">
+                                    <h3>USD Coin</h3>
+                                    <p>USDC</p>
+                                </div>
+                            </div>
+                            <div class="coin-balance">
+                                <div class="coin-amount">3,632.90</div>
+                                <div class="coin-usd">$3,632.90</div>
+                            </div>
+                        </div>
+                        <div class="coin-actions">
+                            <a href="#" class="action-link">Deposit</a>
+                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction History -->
+                <div class="section-header">
+                    <h2 class="section-title">Transaction History</h2>
+                    <div class="filter-bar">
+                        <input type="text" class="search-box" placeholder="Search transactions...">
+                        <select class="filter-select">
+                            <option>All Currencies</option>
+                            <option>BTC</option>
+                            <option>ETH</option>
+                            <option>USDT</option>
+                            <option>USDC</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Types</option>
+                            <option>Deposit</option>
+                            <option>Withdraw</option>
+                            <option>Settlement</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>Date Range</option>
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Currency</th>
+                                    <th>Amount</th>
+                                    <th>Fee</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="tx-type"><div class="tx-icon deposit">&darr;</div><span>Deposit</span></div></td>
+                                    <td>USDT</td>
+                                    <td>+10,000.00</td>
+                                    <td>1.50</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>2026-04-04 14:32</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="tx-type"><div class="tx-icon withdraw">&uarr;</div><span>Withdraw</span></div></td>
+                                    <td>BTC</td>
+                                    <td>-0.5000</td>
+                                    <td>0.0005</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                    <td>2026-04-03 09:15</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="tx-type"><div class="tx-icon settlement">&rarr;</div><span>Settlement</span></div></td>
+                                    <td>ETH</td>
+                                    <td>+2.5000</td>
+                                    <td>0.01</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>2026-04-02 16:47</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="tx-type"><div class="tx-icon withdraw">&uarr;</div><span>Withdraw</span></div></td>
+                                    <td>USDC</td>
+                                    <td>-5,000.00</td>
+                                    <td>2.00</td>
+                                    <td><span class="status failed">Failed</span></td>
+                                    <td>2026-04-01 11:22</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="tx-type"><div class="tx-icon deposit">&darr;</div><span>Deposit</span></div></td>
+                                    <td>BTC</td>
+                                    <td>+0.7500</td>
+                                    <td>0.0003</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>2026-03-31 13:05</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="tx-type"><div class="tx-icon settlement">&rarr;</div><span>Settlement</span></div></td>
+                                    <td>USDT</td>
+                                    <td>+8,234.56</td>
+                                    <td>2.50</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>2026-03-30 10:18</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn">&larr; Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">Next &rarr;</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="withdrawOverlay" onclick="closeDrawer('withdrawDrawer','withdrawOverlay')"></div>
+
+    <!-- Withdraw Drawer -->
+    <div class="drawer" id="withdrawDrawer">
+        <div class="drawer-header">
+            <h2 class="drawer-title">Withdraw USDT</h2>
+            <button class="drawer-close" onclick="closeDrawer('withdrawDrawer','withdrawOverlay')">&times;</button>
+        </div>
+
+        <div class="drawer-content">
+            <!-- Steps -->
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Select Address</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Amount</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Confirm</div>
+                </div>
+            </div>
+
+            <!-- Network Selection -->
+            <div class="form-group">
+                <label class="form-label">Network</label>
+                <div class="network-selector">
+                    <div class="network-chip selected" onclick="selectNetwork(this)">TRC-20</div>
+                    <div class="network-chip" onclick="selectNetwork(this)">ERC-20</div>
+                    <div class="network-chip" onclick="selectNetwork(this)">Other</div>
+                </div>
+            </div>
+
+            <!-- Withdraw Address -->
+            <div class="form-group">
+                <label class="form-label">Withdraw Address</label>
+                <select class="form-select">
+                    <option>TJq6jdNvLAj3tBnJcpqC54Mjf4N9J6zQka (Last 4: 6Qka)</option>
+                    <option>Add New Address</option>
+                </select>
+                <div class="form-helper">
+                    <a href="account.html" class="manage-link">Manage Addresses</a>
+                </div>
+            </div>
+
+            <!-- Amount -->
+            <div class="form-group">
+                <label class="form-label">Amount</label>
+                <div class="form-input-group">
+                    <input type="number" class="form-input" placeholder="0.00" value="1000">
+                    <button class="input-action">Max</button>
+                </div>
+                <div class="form-helper">Available: 18,456.78 USDT</div>
+            </div>
+
+            <!-- Fee Section -->
+            <div class="form-divider">
+                <span class="form-divider-label">Network Fee</span>
+                <span class="form-divider-value">1.00 USDT</span>
+            </div>
+
+            <!-- You Will Receive -->
+            <div class="form-divider">
+                <span class="form-divider-label">You Will Receive</span>
+                <span class="form-divider-value">999.00 USDT</span>
+            </div>
+        </div>
+
+        <div class="drawer-footer">
+            <button class="btn-primary">Continue</button>
+        </div>
+    </div>
+
+    <script src="../js/dropdown.js" defer></script>
+    <script src="../js/drawer.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script>
+        // Network chip selection
+        function selectNetwork(el) {
+            el.parentElement.querySelectorAll('.network-chip').forEach(function(chip) {
+                chip.classList.remove('selected');
+            });
+            el.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

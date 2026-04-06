@@ -1,0 +1,73 @@
+/* ============================================
+   Layout
+   ============================================ */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-wrapper {
+    flex: 1;
+    margin-left: var(--sidebar-w);
+    min-width: 0;
+}
+
+.main-content {
+    padding: 28px;
+    margin-top: var(--topbar-h);
+    min-height: calc(100vh - var(--topbar-h));
+}
+
+/* Page header */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.page-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--grey-900);
+}
+.page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Section spacing */
+.section {
+    margin-bottom: 24px;
+}
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--grey-900);
+    margin-bottom: 16px;
+}
+
+/* ---- Tablet ---- */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 20px;
+    }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+    .main-wrapper {
+        margin-left: 0;
+    }
+    .main-content {
+        padding: 16px;
+    }
+    .page-header {
+        margin-bottom: 16px;
+    }
+    .page-title {
+        font-size: 18px;
+    }
+}

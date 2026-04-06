@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoinPal — Checkout</title>
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/sidebar.css">
+<link rel="stylesheet" href="../css/topbar.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+/* Page-specific styles */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.page-title { font-size: 22px; font-weight: 700; color: var(--grey-900); }
+
+/* SPLIT LAYOUT */
+.split-layout {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 28px;
+}
+
+.card-section {
+    margin-bottom: 24px;
+}
+.card-section:last-child {
+    margin-bottom: 0;
+}
+.card-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grey-900);
+    margin-bottom: 16px;
+    display: block;
+}
+
+/* UPLOAD AREA */
+.upload-area {
+    border: 2px dashed var(--grey-300);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--grey-50);
+}
+.upload-area:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+.upload-area input {
+    display: none;
+}
+.upload-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+.upload-text {
+    font-size: 13px;
+    color: var(--grey-600);
+    margin-bottom: 8px;
+}
+.upload-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.logo-thumbnail {
+    width: 80px;
+    height: 80px;
+    background: var(--grey-100);
+    border-radius: 6px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--grey-400);
+    font-size: 32px;
+}
+
+/* COLOR PICKER */
+.color-picker-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.color-picker-input {
+    width: 50px;
+    height: 44px;
+    border: 1px solid var(--grey-300);
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 2px;
+}
+.color-picker-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--grey-800);
+    font-family: 'Courier New', monospace;
+}
+
+/* THEME CARDS */
+.theme-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.theme-card {
+    padding: 16px;
+    border: 2px solid var(--grey-200);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.theme-card:hover {
+    border-color: var(--primary);
+}
+.theme-card.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+.theme-preview {
+    width: 100%;
+    height: 60px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+.theme-light .theme-preview {
+    background: #fff;
+    border: 1px solid var(--grey-300);
+}
+.theme-dark .theme-preview {
+    background: var(--grey-800);
+}
+.theme-minimal .theme-preview {
+    background: var(--grey-100);
+}
+.theme-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--grey-700);
+}
+
+/* TOGGLE */
+.toggle-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* MULTI-SELECT CHIPS */
+.chips-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.chip {
+    padding: 8px 12px;
+    border: 1px solid var(--grey-300);
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fff;
+    color: var(--grey-700);
+}
+.chip:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+.chip.selected {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+.chip-checkmark {
+    margin-left: 6px;
+    font-weight: 600;
+}
+
+/* PREVIEW PANEL */
+.preview-sticky {
+    position: sticky;
+    top: 84px;
+}
+.device-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--grey-200);
+}
+.device-tab {
+    padding: 12px 0;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grey-500);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+.device-tab:hover {
+    color: var(--grey-700);
+}
+.device-tab.active {
+    color: var(--primary);
+}
+.device-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary);
+}
+
+/* PHONE FRAME */
+.phone-frame {
+    background: #fff;
+    border-radius: 40px;
+    border: 12px solid #000;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 320px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+.phone-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 28px;
+    background: #000;
+    border-radius: 0 0 25px 25px;
+    z-index: 10;
+}
+.phone-content {
+    background: #fff;
+    padding: 40px 16px 20px;
+    min-height: 640px;
+    display: flex;
+    flex-direction: column;
+}
+.checkout-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--grey-200);
+}
+.checkout-logo {
+    width: 40px;
+    height: 40px;
+    background: var(--grey-200);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--grey-400);
+    font-size: 18px;
+}
+.checkout-store-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grey-900);
+}
+.order-info {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: var(--grey-50);
+    border-radius: 6px;
+}
+.order-detail {
+    font-size: 12px;
+    color: var(--grey-600);
+    margin-bottom: 4px;
+}
+.order-detail strong {
+    color: var(--grey-900);
+    font-weight: 600;
+}
+.payment-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--grey-700);
+    margin-bottom: 12px;
+}
+.currency-cards {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.currency-card {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid var(--grey-200);
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fff;
+}
+.currency-card:hover {
+    border-color: var(--primary);
+}
+.currency-card.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+.currency-symbol {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--grey-900);
+}
+.currency-code {
+    font-size: 11px;
+    color: var(--grey-500);
+    margin-top: 4px;
+}
+.qr-container {
+    text-align: center;
+    margin-bottom: 16px;
+}
+.qr-placeholder {
+    width: 140px;
+    height: 140px;
+    background: var(--grey-100);
+    border-radius: 6px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--grey-400);
+    font-size: 48px;
+}
+.address-block {
+    background: var(--grey-50);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+.address-label {
+    font-size: 11px;
+    color: var(--grey-500);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.address-value {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--grey-900);
+    word-break: break-all;
+    margin-bottom: 8px;
+}
+.copy-btn {
+    padding: 4px 8px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.copy-btn:hover {
+    background: #1d4ed8;
+}
+.amount-block {
+    text-align: center;
+    margin-bottom: 12px;
+}
+.amount-label {
+    font-size: 11px;
+    color: var(--grey-500);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+.amount-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--grey-900);
+}
+.timer {
+    text-align: center;
+    font-size: 13px;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+.checkout-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--grey-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--grey-600);
+}
+.shield-icon {
+    font-size: 14px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .split-layout {
+        grid-template-columns: 1fr;
+    }
+    .preview-sticky {
+        position: static;
+    }
+}
+@media (max-width: 768px) {
+    .split-layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar-overlay"></div>
+    <nav class="sidebar">
+        <div class="sidebar-logo">Coin<span>Pal</span></div>
+        <div class="sidebar-nav">
+            <div class="nav-section">Business</div>
+            <a href="overview.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                Overview
+            </a>
+            <a href="assets.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+                Assets
+            </a>
+            <a href="orders.html" class="nav-item active" data-toggle="orders">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                Orders
+            </a>
+            <a href="orders.html" class="nav-item nav-sub" data-group="orders">Receive</a>
+            <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
+            <a href="payment-links.html" class="nav-item nav-sub" data-group="orders">Payment Links</a>
+            <a href="checkout.html" class="nav-item nav-sub active-sub" data-group="orders">Checkout</a>
+            <a href="reports.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                Reports
+            </a>
+            <div class="nav-divider"></div>
+            <div class="nav-section">Manage</div>
+            <a href="store.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Store
+            </a>
+            <a href="account.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Account
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-hamburger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="breadcrumb">Orders &gt; <strong>Checkout</strong></div>
+            </div>
+            <div class="topbar-right">
+                <div class="lang-dropdown">
+                    <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                        <span class="lang-label">EN</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="lang-menu">
+                        <div class="lang-menu-item active">English</div>
+                        <div class="lang-menu-item">简体中文</div>
+                        <div class="lang-menu-item">日本語</div>
+                        <div class="lang-menu-item">한국어</div>
+                    </div>
+                </div>
+                <div class="topbar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                    <span class="topbar-badge"></span>
+                </div>
+                <div class="topbar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                </div>
+                <div class="user-dropdown">
+                    <div class="avatar" onclick="this.parentElement.classList.toggle('open')">JX</div>
+                    <div class="user-menu">
+                        <div class="user-menu-header">
+                            <div class="user-menu-name">Jxwinter</div>
+                            <div class="user-menu-email">product.igv.test@gmail.com</div>
+                        </div>
+                        <a href="account.html" class="user-menu-item">Account Settings</a>
+                        <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Checkout Customization</h1>
+                <button class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    Save &amp; Publish
+                </button>
+            </div>
+
+            <!-- SPLIT LAYOUT -->
+            <div class="split-layout">
+                <!-- LEFT: CONFIG PANEL -->
+                <div class="card">
+                    <!-- Brand Identity -->
+                    <div class="card-section">
+                        <label class="card-section-title">Brand Identity</label>
+
+                        <div class="form-group">
+                            <label class="form-label">Store Logo</label>
+                            <div class="upload-area" onclick="document.getElementById('logoUpload').click()">
+                                <div class="logo-thumbnail">&#x1f5bc;&#xfe0f;</div>
+                                <div class="upload-text">Drag or click to upload</div>
+                                <div class="upload-btn">Upload</div>
+                                <input id="logoUpload" type="file" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="toggle-group">
+                                <label class="form-label" style="margin-bottom: 0;">Store Name Display</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Brand Color</label>
+                            <div class="color-picker-group">
+                                <input type="color" class="color-picker-input" value="#2563eb" id="brandColor" onchange="updateBrandColor(this.value)">
+                                <span class="color-picker-value" id="colorValue">#2563eb</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theme -->
+                    <div class="card-section">
+                        <label class="card-section-title">Theme</label>
+                        <div class="theme-options">
+                            <div class="theme-card theme-light selected" onclick="selectTheme('light', this)">
+                                <div class="theme-preview"></div>
+                                <div class="theme-label">Light</div>
+                            </div>
+                            <div class="theme-card theme-dark" onclick="selectTheme('dark', this)">
+                                <div class="theme-preview"></div>
+                                <div class="theme-label">Dark</div>
+                            </div>
+                            <div class="theme-card theme-minimal" onclick="selectTheme('minimal', this)">
+                                <div class="theme-preview"></div>
+                                <div class="theme-label">Minimal</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Page -->
+                    <div class="card-section">
+                        <label class="card-section-title">Payment Page</label>
+
+                        <div class="form-group">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-input" value="Complete Your Payment" id="pageTitle" onchange="updatePreview()">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="toggle-group">
+                                <label class="form-label" style="margin-bottom: 0;">Show Order ID</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked onchange="updatePreview()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="toggle-group">
+                                <label class="form-label" style="margin-bottom: 0;">Show Amount in Fiat</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked onchange="updatePreview()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Supported Languages</label>
+                            <div class="chips-group">
+                                <div class="chip selected" onclick="toggleChip(this)">English <span class="chip-checkmark">&#10003;</span></div>
+                                <div class="chip selected" onclick="toggleChip(this)">Chinese <span class="chip-checkmark">&#10003;</span></div>
+                                <div class="chip" onclick="toggleChip(this)">Japanese</div>
+                                <div class="chip" onclick="toggleChip(this)">Korean</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="card-section">
+                        <label class="card-section-title">Footer</label>
+
+                        <div class="form-group">
+                            <label class="form-label">Custom Footer Text</label>
+                            <input type="text" class="form-input" value="Powered by CoinPal" id="footerText" onchange="updatePreview()">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="toggle-group">
+                                <label class="form-label" style="margin-bottom: 0;">Show "Secured by CoinPal" Badge</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked onchange="updatePreview()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: PREVIEW PANEL -->
+                <div class="preview-sticky">
+                    <div class="card">
+                        <!-- Device Tabs -->
+                        <div class="device-tabs">
+                            <button class="device-tab" onclick="switchDevice('desktop', this)">
+                                &#x1f4bb; Desktop
+                            </button>
+                            <button class="device-tab" onclick="switchDevice('tablet', this)">
+                                &#x1f4f1; Tablet
+                            </button>
+                            <button class="device-tab active" onclick="switchDevice('mobile', this)">
+                                &#x1f4f1; Mobile
+                            </button>
+                        </div>
+
+                        <!-- Phone Frame -->
+                        <div class="phone-frame" id="phoneFrame">
+                            <div class="phone-content" id="phoneContent">
+                                <!-- Header -->
+                                <div class="checkout-header">
+                                    <div class="checkout-logo">&#x1f3ea;</div>
+                                    <div class="checkout-store-name">My Online Shop</div>
+                                </div>
+
+                                <!-- Order Info -->
+                                <div class="order-info">
+                                    <div class="order-detail"><strong>#ORD-12345</strong></div>
+                                    <div class="order-detail"><strong>$99.00 USD</strong></div>
+                                </div>
+
+                                <!-- Payment Section -->
+                                <div class="payment-section-title">Select Payment Method</div>
+
+                                <!-- Currency Cards -->
+                                <div class="currency-cards">
+                                    <div class="currency-card" onclick="selectCurrency(this)">
+                                        <div class="currency-symbol">&#8383;</div>
+                                        <div class="currency-code">BTC</div>
+                                    </div>
+                                    <div class="currency-card" onclick="selectCurrency(this)">
+                                        <div class="currency-symbol">&#926;</div>
+                                        <div class="currency-code">ETH</div>
+                                    </div>
+                                    <div class="currency-card selected" onclick="selectCurrency(this)">
+                                        <div class="currency-symbol">T</div>
+                                        <div class="currency-code">USDT</div>
+                                    </div>
+                                </div>
+
+                                <!-- QR Code -->
+                                <div class="qr-container">
+                                    <div class="qr-placeholder">&#x2b1c;</div>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="address-block">
+                                    <div class="address-label">Wallet Address</div>
+                                    <div class="address-value">TQn8RhEhJwLu3X7e7k8p9L4q5r6s7t8uV9w0x1y2z3</div>
+                                    <button class="copy-btn" onclick="copyAddress()">Copy Address</button>
+                                </div>
+
+                                <!-- Amount -->
+                                <div class="amount-block">
+                                    <div class="amount-label">Amount</div>
+                                    <div class="amount-value">99.00 USDT</div>
+                                </div>
+
+                                <!-- Timer -->
+                                <div class="timer" id="timerDisplay">29:45 remaining</div>
+
+                                <!-- Footer -->
+                                <div class="checkout-footer">
+                                    <span id="footerDisplay">Powered by CoinPal</span>
+                                    <span class="shield-icon">&#x1f6e1;&#xfe0f;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="../js/dropdown.js" defer></script>
+<script src="../js/sidebar.js" defer></script>
+<script>
+    function selectTheme(theme, element) {
+        document.querySelectorAll('.theme-card').forEach(function(el) {
+            el.classList.remove('selected');
+        });
+        element.classList.add('selected');
+
+        var phoneContent = document.getElementById('phoneContent');
+        if (theme === 'light') {
+            phoneContent.style.background = '#fff';
+            phoneContent.style.color = '#111827';
+        } else if (theme === 'dark') {
+            phoneContent.style.background = '#1f2937';
+            phoneContent.style.color = '#fff';
+        } else if (theme === 'minimal') {
+            phoneContent.style.background = '#f9fafb';
+            phoneContent.style.color = '#111827';
+        }
+    }
+
+    function updateBrandColor(color) {
+        document.getElementById('colorValue').textContent = color.toUpperCase();
+        document.querySelector(':root').style.setProperty('--primary', color);
+    }
+
+    function toggleChip(element) {
+        element.classList.toggle('selected');
+        if (element.classList.contains('selected')) {
+            element.innerHTML = element.textContent.replace(/\u2713/, '') + ' <span class="chip-checkmark">&#10003;</span>';
+        } else {
+            element.innerHTML = element.textContent.replace(/\s\u2713/, '');
+        }
+    }
+
+    function selectCurrency(element) {
+        document.querySelectorAll('.currency-card').forEach(function(el) {
+            el.classList.remove('selected');
+        });
+        element.classList.add('selected');
+    }
+
+    function switchDevice(device, element) {
+        document.querySelectorAll('.device-tab').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        element.classList.add('active');
+
+        var phoneFrame = document.getElementById('phoneFrame');
+        if (device === 'mobile') {
+            phoneFrame.style.maxWidth = '320px';
+            phoneFrame.style.borderRadius = '40px';
+            phoneFrame.style.border = '12px solid #000';
+            phoneFrame.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.3)';
+        } else if (device === 'tablet') {
+            phoneFrame.style.maxWidth = '450px';
+            phoneFrame.style.borderRadius = '50px';
+            phoneFrame.style.border = '12px solid #000';
+            phoneFrame.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.3)';
+        } else if (device === 'desktop') {
+            phoneFrame.style.maxWidth = '100%';
+            phoneFrame.style.borderRadius = '0';
+            phoneFrame.style.border = 'none';
+            phoneFrame.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+        }
+    }
+
+    function copyAddress() {
+        var address = 'TQn8RhEhJwLu3X7e7k8p9L4q5r6s7t8uV9w0x1y2z3';
+        navigator.clipboard.writeText(address);
+        alert('Address copied to clipboard!');
+    }
+
+    function updatePreview() {
+        var pageTitle = document.getElementById('pageTitle').value;
+        var footerText = document.getElementById('footerText').value;
+        var footerDisplay = document.getElementById('footerDisplay');
+        footerDisplay.textContent = footerText;
+    }
+
+    // Timer simulation
+    var timeLeft = 29 * 60 + 45;
+    setInterval(function() {
+        timeLeft--;
+        if (timeLeft < 0) timeLeft = 29 * 60 + 45;
+
+        var minutes = Math.floor(timeLeft / 60);
+        var seconds = timeLeft % 60;
+        document.getElementById('timerDisplay').textContent =
+            minutes + ':' + seconds.toString().padStart(2, '0') + ' remaining';
+    }, 1000);
+</script>
+</body>
+</html>

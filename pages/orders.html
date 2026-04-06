@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoinPal — Orders</title>
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/sidebar.css">
+<link rel="stylesheet" href="../css/topbar.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<style>
+/* Page-specific styles */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.page-title { font-size: 22px; font-weight: 700; color: var(--grey-900); }
+
+.col-id { font-family: 'SF Mono', Monaco, monospace; font-size: 12px; color: var(--grey-500); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.col-amount { font-weight: 700; color: var(--grey-900); white-space: nowrap; }
+.col-time { font-size: 12px; color: var(--grey-400); white-space: nowrap; }
+.col-method { display: flex; align-items: center; gap: 6px; }
+.method-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: white; background: #26a17b; }
+.col-link { color: var(--primary); font-weight: 600; cursor: pointer; font-size: 12px; }
+.col-link:hover { text-decoration: underline; }
+
+/* Detail drawer page-specific */
+.detail-hero {
+  padding: 24px; text-align: center;
+  background: linear-gradient(180deg, var(--grey-50) 0%, white 100%);
+}
+.detail-section { padding: 0 24px 20px; }
+.detail-section-title { font-size: 12px; font-weight: 700; color: var(--grey-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; padding-top: 16px; border-top: 1px solid var(--grey-100); }
+
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.detail-field { padding: 10px 0; }
+.detail-field:nth-child(odd) { padding-right: 12px; }
+.detail-field:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--grey-100); }
+.df-label { font-size: 11px; color: var(--grey-400); font-weight: 500; margin-bottom: 3px; }
+.df-value { font-size: 13px; color: var(--grey-800); font-weight: 600; word-break: break-all; }
+.df-value a { color: var(--primary); text-decoration: none; }
+.df-value a:hover { text-decoration: underline; }
+.df-mono { font-family: 'SF Mono', Monaco, monospace; font-size: 12px; }
+
+.copy-btn { cursor: pointer; color: var(--grey-300); font-size: 14px; }
+.copy-btn:hover { color: var(--primary); }
+
+.date-range {
+  display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px;
+  border: 1px solid var(--grey-200); background: white; font-size: 13px; color: var(--grey-600);
+}
+.filter-right { margin-left: auto; display: flex; gap: 8px; }
+
+.tab-alert .tab-count { background: var(--red-light); color: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="sidebar-overlay"></div>
+    <nav class="sidebar">
+        <div class="sidebar-logo">Coin<span>Pal</span></div>
+        <div class="sidebar-nav">
+            <div class="nav-section">Business</div>
+            <a href="overview.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                Overview
+            </a>
+            <a href="assets.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
+                Assets
+            </a>
+            <a href="orders.html" class="nav-item active" data-toggle="orders">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                Orders
+            </a>
+            <a href="orders.html" class="nav-item nav-sub active-sub" data-group="orders">Receive</a>
+            <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
+            <a href="payment-links.html" class="nav-item nav-sub" data-group="orders">Payment Links</a>
+            <a href="checkout.html" class="nav-item nav-sub" data-group="orders">Checkout</a>
+            <a href="reports.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                Reports
+            </a>
+            <div class="nav-divider"></div>
+            <div class="nav-section">Manage</div>
+            <a href="store.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Store
+            </a>
+            <a href="account.html" class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Account
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="topbar-hamburger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="breadcrumb">Orders &gt; <strong>Receive</strong></div>
+            </div>
+            <div class="topbar-right">
+                <div class="lang-dropdown">
+                    <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+                        <span class="lang-label">EN</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="lang-menu">
+                        <div class="lang-menu-item active">English</div>
+                        <div class="lang-menu-item">简体中文</div>
+                        <div class="lang-menu-item">日本語</div>
+                        <div class="lang-menu-item">한국어</div>
+                    </div>
+                </div>
+                <div class="topbar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                    <span class="topbar-badge"></span>
+                </div>
+                <div class="topbar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                </div>
+                <div class="user-dropdown">
+                    <div class="avatar" onclick="this.parentElement.classList.toggle('open')">JX</div>
+                    <div class="user-menu">
+                        <div class="user-menu-header">
+                            <div class="user-menu-name">Jxwinter</div>
+                            <div class="user-menu-email">product.igv.test@gmail.com</div>
+                        </div>
+                        <a href="account.html" class="user-menu-item">Account Settings</a>
+                        <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Receive Orders</h1>
+                <div style="display:flex;gap:10px;">
+                    <a href="reports.html" class="btn btn-outline" style="text-decoration: none;">Export</a>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stat-row">
+                <div class="stat-card">
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-value">7</div>
+                    <div class="stat-sub stat-up">+3 this week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Paid</div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-sub" style="color:var(--grey-400)">14.3% conversion</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Failed / Expired</div>
+                    <div class="stat-value" style="color:var(--red)">6</div>
+                    <div class="stat-sub stat-down">needs attention</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Received</div>
+                    <div class="stat-value">0.01 <span style="font-size:14px;color:var(--grey-400)">USD</span></div>
+                    <div class="stat-sub" style="color:var(--grey-400)">~ 0.010 USDT</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active">All Orders <span class="tab-count">7</span></div>
+                <div class="tab">Paid <span class="tab-count">1</span></div>
+                <div class="tab tab-alert">Unresolved <span class="tab-count">0</span></div>
+                <div class="tab">Failed <span class="tab-count">6</span></div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-bar">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    <input placeholder="Search by Order ID, Reference...">
+                </div>
+                <select class="filter-select">
+                    <option>All Status</option>
+                    <option>Paid</option>
+                    <option>Failed</option>
+                    <option>Pending</option>
+                    <option>Underpaid</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Currencies</option>
+                    <option>USD</option>
+                    <option>USDT</option>
+                </select>
+                <div class="date-range">
+                    Apr 1 - Apr 5, 2026
+                </div>
+                <div class="filter-right">
+                    <button class="btn btn-sm btn-outline">Clear</button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-wrap">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Order Amount</th>
+                                <th>Paid</th>
+                                <th>Currency</th>
+                                <th>Source</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                <td><span class="col-id" title="CWSGD179V9EB1NHG">CWSGD179V9EB1NHG</span></td>
+                                <td class="col-amount">0.01 USD</td>
+                                <td class="col-amount" style="color:var(--green)">0.0100 USDT</td>
+                                <td><div class="col-method"><span class="method-icon">T</span>USDT</div></td>
+                                <td><span style="font-size:12px; color:var(--grey-400)">API</span></td>
+                                <td class="col-time">Apr 2, 10:57</td>
+                                <td><span class="status status-paid"><span class="status-dot"></span>Paid</span></td>
+                                <td><span class="col-link">Details &rarr;</span></td>
+                            </tr>
+                            <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                <td><span class="col-id" title="CWSUR179VNKT5RN7">CWSUR179VNKT5RN7</span></td>
+                                <td class="col-amount">0.01 USD</td>
+                                <td style="color:var(--grey-300); font-size:12px;">&mdash;</td>
+                                <td><div class="col-method"><span class="method-icon">T</span>USDT</div></td>
+                                <td><span style="font-size:12px; color:var(--grey-400)">Payment Link</span></td>
+                                <td class="col-time">Apr 2, 15:30</td>
+                                <td><span class="status status-failed"><span class="status-dot"></span>Failed</span></td>
+                                <td><span class="col-link">Details &rarr;</span></td>
+                            </tr>
+                            <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                <td><span class="col-id" title="CWSJ8179VQFJB30J">CWSJ8179VQFJB30J</span></td>
+                                <td class="col-amount">0.01 USD</td>
+                                <td style="color:var(--grey-300); font-size:12px;">&mdash;</td>
+                                <td><div class="col-method"><span class="method-icon">T</span>USDT</div></td>
+                                <td><span style="font-size:12px; color:var(--grey-400)">API</span></td>
+                                <td class="col-time">Apr 2, 16:25</td>
+                                <td><span class="status status-failed"><span class="status-dot"></span>Failed</span></td>
+                                <td><span class="col-link">Details &rarr;</span></td>
+                            </tr>
+                            <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                <td><span class="col-id" title="CWSSV179VQJ235BK">CWSSV179VQJ235BK</span></td>
+                                <td class="col-amount">0.01 USD</td>
+                                <td style="color:var(--grey-300); font-size:12px;">&mdash;</td>
+                                <td><div class="col-method"><span class="method-icon">T</span>USDT</div></td>
+                                <td><span style="font-size:12px; color:var(--grey-400)">Payment Link</span></td>
+                                <td class="col-time">Apr 2, 16:27</td>
+                                <td><span class="status status-failed"><span class="status-dot"></span>Failed</span></td>
+                                <td><span class="col-link">Details &rarr;</span></td>
+                            </tr>
+                            <tr class="clickable" onclick="openDrawer('detailDrawer','detailOverlay')">
+                                <td><span class="col-id" title="CWSD6179XU180Y0A">CWSD6179XU180Y0A</span></td>
+                                <td class="col-amount">0.01 USD</td>
+                                <td style="color:var(--grey-300); font-size:12px;">&mdash;</td>
+                                <td><span style="font-size:12px; color:var(--grey-300)">&mdash;</span></td>
+                                <td><span style="font-size:12px; color:var(--grey-400)">API</span></td>
+                                <td class="col-time">Apr 3, 15:24</td>
+                                <td><span class="status status-failed"><span class="status-dot"></span>Failed</span></td>
+                                <td><span class="col-link">Details &rarr;</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <span class="page-info">Showing 1-5 of 7 orders</span>
+                    <div class="page-btns">
+                        <span class="page-btn">&lsaquo;</span>
+                        <span class="page-btn active">1</span>
+                        <span class="page-btn">2</span>
+                        <span class="page-btn">&rsaquo;</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Order Detail Drawer -->
+<div class="drawer-overlay" id="detailOverlay" onclick="closeDrawer('detailDrawer','detailOverlay')"></div>
+<div class="drawer" id="detailDrawer">
+    <div class="drawer-header">
+        <div>
+            <div style="display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700;">
+                Payment
+                <span class="status status-paid" style="font-size:12px;"><span class="status-dot"></span>Paid</span>
+            </div>
+            <div style="font-size:12px; color:var(--grey-400); font-family:monospace; display:flex; align-items:center; gap:6px; margin-top:4px;">
+                CWSGD179V9EB1NHG <span class="copy-btn" title="Copy">&#x1F4CB;</span>
+            </div>
+        </div>
+        <button class="drawer-close" onclick="closeDrawer('detailDrawer','detailOverlay')">&times;</button>
+    </div>
+
+    <div class="drawer-content">
+        <!-- Amount hero -->
+        <div class="detail-hero">
+            <div class="hero-amount">
+                <div class="hero-amount-value">$0.01 <span style="font-size:16px; color:var(--grey-400); font-weight:600;">USD</span></div>
+                <div class="hero-amount-sub">Paid 0.0100 USDT &middot; 1 USDT ~ 1.00 USD</div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="detail-section">
+            <div class="detail-section-title">Timeline</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Payment Paid</div>
+                        <div class="timeline-time">Apr 2, 2026 &middot; 11:21 AM</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Risk Review Passed</div>
+                        <div class="timeline-time">Apr 2, 2026 &middot; 11:02 AM</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Payment Confirming</div>
+                        <div class="timeline-time">Apr 2, 2026 &middot; 11:01 AM</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Payment Pending</div>
+                        <div class="timeline-time">Apr 2, 2026 &middot; 10:57 AM</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot done"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Order Created</div>
+                        <div class="timeline-time">Apr 2, 2026 &middot; 10:57 AM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Details -->
+        <div class="detail-section">
+            <div class="detail-section-title">Payment Details</div>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Order Amount</div>
+                    <div class="detail-value">0.01 USD</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Due Amount</div>
+                    <div class="detail-value">0.0100 USDT</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Paid Amount</div>
+                    <div class="detail-value" style="color:var(--green)">0.0100 USDT</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Unpaid Amount</div>
+                    <div class="detail-value">0.0000 USDT</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Fee</div>
+                    <div class="detail-value">0.0031 KAS</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Exchange Rate</div>
+                    <div class="detail-value">1 USDT ~ 1.00 USD</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer & References -->
+        <div class="detail-section">
+            <div class="detail-section-title">Customer &amp; References</div>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Payer Email</div>
+                    <div class="detail-value">877932128@gmail.com</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Source</div>
+                    <div class="detail-value">API</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Receive Address</div>
+                    <div class="detail-value" style="font-family:'SF Mono',Monaco,monospace; font-size:12px;">TV1UM3N2a...1DGPub</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Payment Link</div>
+                    <div class="detail-value"><a href="#" style="color:var(--primary); text-decoration:none;">View link &nearr;</a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Identifiers -->
+        <div class="detail-section">
+            <div class="detail-section-title">Identifiers</div>
+            <div style="display:flex; flex-direction:column; gap: 8px;">
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                    <span style="color:var(--grey-400)">Order No</span>
+                    <span style="font-family:'SF Mono',Monaco,monospace; font-size:12px; color:var(--grey-600)">PTL10001129...562-KcjCt06zs <span class="copy-btn">&#x1F4CB;</span></span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px;">
+                    <span style="color:var(--grey-400)">Transaction ID</span>
+                    <span style="font-family:'SF Mono',Monaco,monospace; font-size:12px; color:var(--grey-600)">plPTL10001...562-KcjCt06zs <span class="copy-btn">&#x1F4CB;</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="drawer-footer">
+        <button class="btn btn-outline" style="flex:1; justify-content:center;">Copy Payment Link</button>
+        <button class="btn btn-outline" style="flex:1; justify-content:center;">Download</button>
+    </div>
+</div>
+
+<script src="../js/dropdown.js" defer></script>
+<script src="../js/drawer.js" defer></script>
+<script src="../js/sidebar.js" defer></script>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+    });
+});
+</script>
+</body>
+</html>
