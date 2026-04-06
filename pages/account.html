@@ -374,45 +374,94 @@
             color: var(--grey-400);
         }
 
-        /* Address Cards */
-        .address-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        /* Address List */
+        .address-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 16px;
+        }
+
+        .address-item {
+            display: flex;
+            align-items: center;
             gap: 16px;
-            margin-top: 20px;
-        }
-
-        .address-card {
+            padding: 16px 20px;
             border: 1px solid var(--grey-200);
+            border-bottom: none;
+            background: white;
+            transition: background 0.15s;
+        }
+        .address-item:first-child {
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+        .address-item:last-child {
+            border-bottom: 1px solid var(--grey-200);
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+        .address-item:only-child {
             border-radius: var(--radius);
-            padding: 16px;
-            background-color: var(--grey-50);
+            border-bottom: 1px solid var(--grey-200);
+        }
+        .address-item:hover {
+            background: var(--grey-50);
         }
 
-        .address-card-label {
+        .address-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+        .address-icon.btc { background: #f7931a; }
+        .address-icon.eth { background: #627eea; }
+        .address-icon.usdc { background: #2775ca; }
+
+        .address-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .address-name {
             font-size: 14px;
             font-weight: 600;
             color: var(--grey-900);
-            margin-bottom: 8px;
         }
-
-        .address-card-info {
+        .address-meta {
             font-size: 12px;
+            color: var(--grey-500);
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .address-meta-sep {
+            color: var(--grey-300);
+        }
+        .address-addr {
+            font-family: var(--font-mono);
+            font-size: 13px;
             color: var(--grey-600);
-            margin-bottom: 4px;
-            word-break: break-all;
+            margin-top: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .address-card-actions {
+        .address-actions {
             display: flex;
             gap: 8px;
-            margin-top: 12px;
-            border-top: 1px solid var(--grey-200);
-            padding-top: 12px;
+            flex-shrink: 0;
         }
 
-        .address-card-actions button {
-            flex: 1;
+        /* Add Address Modal */
+        .add-address-form .form-group {
+            margin-bottom: 16px;
         }
 
         /* Responsive */
@@ -447,8 +496,12 @@
                 gap: 12px;
             }
 
-            .address-cards {
-                grid-template-columns: 1fr;
+            .address-actions {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .address-addr {
+                max-width: 200px;
             }
 
             .permissions-grid {
@@ -937,60 +990,138 @@
 
                         <!-- TAB 5: ADDRESS BOOK -->
                         <div id="addressbook" class="tab-content">
-                            <div style="margin-bottom: 24px;">
-                                <button class="btn btn-primary">+ Add Address</button>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                                <div>
+                                    <div style="font-size: 14px; color: var(--grey-500);">Manage your saved withdrawal addresses</div>
+                                </div>
+                                <button class="btn btn-primary" onclick="openDrawer('addAddressDrawer','addAddressOverlay')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                                    Add Address
+                                </button>
                             </div>
 
-                            <div class="card">
-                                <div class="card-title">Saved Addresses</div>
+                            <div class="card" style="padding: 0; overflow: hidden;">
+                                <div style="padding: 16px 20px; border-bottom: 1px solid var(--grey-200); display: flex; align-items: center; justify-content: space-between;">
+                                    <div class="card-title" style="margin-bottom: 0;">Crypto Addresses</div>
+                                    <span style="font-size: 12px; color: var(--grey-500);">3 addresses</span>
+                                </div>
 
-                                <div class="address-cards">
-                                    <div class="address-card">
-                                        <div class="address-card-label">Bitcoin Wallet</div>
-                                        <div class="address-card-info"><strong>Currency:</strong> Bitcoin</div>
-                                        <div class="address-card-info"><strong>Network:</strong> Mainnet</div>
-                                        <div class="address-card-info"><strong>Address:</strong> 1A1z7agoat7SFsd...9xDe</div>
-                                        <div class="address-card-actions">
-                                            <button class="btn btn-outline btn-small">Edit</button>
-                                            <button class="btn btn-danger btn-small">Delete</button>
+                                <div class="address-list">
+                                    <div class="address-item">
+                                        <div class="address-icon btc">₿</div>
+                                        <div class="address-info">
+                                            <div class="address-name">Bitcoin Wallet</div>
+                                            <div class="address-meta">
+                                                <span>Bitcoin</span>
+                                                <span class="address-meta-sep">·</span>
+                                                <span>Mainnet</span>
+                                            </div>
+                                            <div class="address-addr">1A1z7agoat7SFsdKjHn4rjE8GtW9xDe</div>
+                                        </div>
+                                        <div class="address-actions">
+                                            <button class="btn btn-outline btn-sm">Edit</button>
+                                            <button class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger);">Delete</button>
                                         </div>
                                     </div>
 
-                                    <div class="address-card">
-                                        <div class="address-card-label">Ethereum Wallet</div>
-                                        <div class="address-card-info"><strong>Currency:</strong> Ethereum</div>
-                                        <div class="address-card-info"><strong>Network:</strong> Mainnet</div>
-                                        <div class="address-card-info"><strong>Address:</strong> 0x742d35Cc6634C0532925a3b844Bc...ce6f</div>
-                                        <div class="address-card-actions">
-                                            <button class="btn btn-outline btn-small">Edit</button>
-                                            <button class="btn btn-danger btn-small">Delete</button>
+                                    <div class="address-item">
+                                        <div class="address-icon eth">Ξ</div>
+                                        <div class="address-info">
+                                            <div class="address-name">Ethereum Wallet</div>
+                                            <div class="address-meta">
+                                                <span>Ethereum</span>
+                                                <span class="address-meta-sep">·</span>
+                                                <span>Mainnet</span>
+                                            </div>
+                                            <div class="address-addr">0x742d35Cc6634C0532925a3b844Bcce6f</div>
+                                        </div>
+                                        <div class="address-actions">
+                                            <button class="btn btn-outline btn-sm">Edit</button>
+                                            <button class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger);">Delete</button>
                                         </div>
                                     </div>
 
-                                    <div class="address-card">
-                                        <div class="address-card-label">USDC Stablecoin</div>
-                                        <div class="address-card-info"><strong>Currency:</strong> USD Coin</div>
-                                        <div class="address-card-info"><strong>Network:</strong> Polygon</div>
-                                        <div class="address-card-info"><strong>Address:</strong> 0xA0b86991c6218b36c1d19D4a2...90F1</div>
-                                        <div class="address-card-actions">
-                                            <button class="btn btn-outline btn-small">Edit</button>
-                                            <button class="btn btn-danger btn-small">Delete</button>
+                                    <div class="address-item">
+                                        <div class="address-icon usdc">$</div>
+                                        <div class="address-info">
+                                            <div class="address-name">USDC Stablecoin</div>
+                                            <div class="address-meta">
+                                                <span>USD Coin</span>
+                                                <span class="address-meta-sep">·</span>
+                                                <span>Polygon</span>
+                                            </div>
+                                            <div class="address-addr">0xA0b86991c6218b36c1d19D4a290F1</div>
+                                        </div>
+                                        <div class="address-actions">
+                                            <button class="btn btn-outline btn-sm">Edit</button>
+                                            <button class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger);">Delete</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Fiat Accounts Coming Soon -->
-                            <div class="card">
+                            <div class="card" style="margin-top: 24px;">
                                 <div class="card-title">Fiat Accounts</div>
                                 <div style="text-align: center; padding: 40px 20px;">
-                                    <span class="status pending">Coming Soon</span>
+                                    <span class="status status-pending"><span class="status-dot"></span> Coming Soon</span>
                                     <p style="margin-top: 12px; color: var(--grey-600); font-size: 14px;">
                                         Bank transfer integration coming soon. Check back later!
                                     </p>
                                 </div>
                             </div>
                         </div>
+
+    <!-- Add Address Drawer -->
+    <div class="drawer-overlay" id="addAddressOverlay" data-drawer="addAddressDrawer"></div>
+    <div class="drawer" id="addAddressDrawer" style="width: 480px; right: -480px;">
+        <div class="drawer-header">
+            <div class="drawer-title">Add New Address</div>
+            <button class="drawer-close" onclick="closeDrawer('addAddressDrawer','addAddressOverlay')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="drawer-content add-address-form">
+            <div class="form-group">
+                <label class="form-label">Label</label>
+                <input class="form-input" type="text" placeholder="e.g. My Bitcoin Wallet">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Currency</label>
+                <select class="form-input">
+                    <option value="">Select currency</option>
+                    <option>Bitcoin (BTC)</option>
+                    <option>Ethereum (ETH)</option>
+                    <option>USDT (Tether)</option>
+                    <option>USDC (USD Coin)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Network</label>
+                <select class="form-input">
+                    <option value="">Select network</option>
+                    <option>Mainnet</option>
+                    <option>Polygon</option>
+                    <option>Arbitrum</option>
+                    <option>Optimism</option>
+                    <option>BSC (BNB Chain)</option>
+                    <option>Tron (TRC-20)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Wallet Address</label>
+                <input class="form-input" type="text" placeholder="Enter wallet address" style="font-family: var(--font-mono);">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Memo / Tag <span style="color: var(--grey-400); font-weight: 400;">(optional)</span></label>
+                <input class="form-input" type="text" placeholder="Required for some networks (e.g. XRP, EOS)">
+            </div>
+        </div>
+        <div class="drawer-footer">
+            <button class="btn btn-outline" onclick="closeDrawer('addAddressDrawer','addAddressOverlay')">Cancel</button>
+            <button class="btn btn-primary">Save Address</button>
+        </div>
+    </div>
                     </div>
                 </div>
             </main>
@@ -998,6 +1129,7 @@
     </div>
 
     <script src="../js/dropdown.js" defer></script>
+    <script src="../js/drawer.js" defer></script>
     <script src="../js/sidebar.js" defer></script>
     <script>
         function switchTab(tabName, btn) {

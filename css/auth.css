@@ -446,6 +446,61 @@ body.auth-page {
     right: 24px;
     z-index: 50;
 }
+.auth-lang .lang-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--grey-200);
+    border-radius: 6px;
+    background: white;
+    font-size: 13px;
+    color: var(--grey-700);
+    cursor: pointer;
+}
+.auth-lang .lang-trigger:hover {
+    border-color: var(--grey-300);
+}
+.auth-lang .lang-trigger svg {
+    width: 15px;
+    height: 15px;
+}
+.auth-lang .lang-trigger .chevron {
+    width: 12px;
+    height: 12px;
+}
+.auth-lang .lang-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background: white;
+    border: 1px solid var(--grey-200);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-width: 140px;
+    z-index: 999;
+    overflow: hidden;
+}
+.auth-lang .lang-dropdown.open .lang-menu {
+    display: block;
+}
+.auth-lang .lang-menu-item {
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--grey-700);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.auth-lang .lang-menu-item:hover {
+    background: var(--grey-50);
+}
+.auth-lang .lang-menu-item.active {
+    color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 600;
+}
 
 /* ---- Responsive ---- */
 @media (max-width: 900px) {
