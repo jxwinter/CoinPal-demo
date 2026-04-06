@@ -168,36 +168,36 @@
         <nav class="sidebar">
             <div class="sidebar-logo">Coin<span>Pal</span></div>
             <div class="sidebar-nav">
-                <div class="nav-section">Business</div>
+                <div class="nav-section" data-i18n="nav.business">Business</div>
                 <a href="overview.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-                    Overview
+                    <span data-i18n="nav.overview">Overview</span>
                 </a>
                 <a href="assets.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a2 2 0 000 4h4v-4h-4z"/></svg>
-                    Assets
+                    <span data-i18n="nav.assets">Assets</span>
                 </a>
                 <a href="orders.html" class="nav-item" data-toggle="orders">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
-                    Orders
+                    <span data-i18n="nav.orders">Orders</span>
                 </a>
-                <a href="orders.html" class="nav-item nav-sub" data-group="orders">Receive</a>
-                <a href="send-orders.html" class="nav-item nav-sub" data-group="orders">Send</a>
-                <a href="payment-links.html" class="nav-item nav-sub" data-group="orders">Payment Links</a>
-                <a href="checkout.html" class="nav-item nav-sub" data-group="orders">Checkout</a>
+                <a href="orders.html" class="nav-item nav-sub" data-group="orders" data-i18n="nav.receive">Receive</a>
+                <a href="send-orders.html" class="nav-item nav-sub" data-group="orders" data-i18n="nav.send">Send</a>
+                <a href="payment-links.html" class="nav-item nav-sub" data-group="orders" data-i18n="nav.paymentLinks">Payment Links</a>
+                <a href="checkout.html" class="nav-item nav-sub" data-group="orders" data-i18n="nav.checkout">Checkout</a>
                 <a href="reports.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-                    Reports
+                    <span data-i18n="nav.reports">Reports</span>
                 </a>
                 <div class="nav-divider"></div>
-                <div class="nav-section">Manage</div>
+                <div class="nav-section" data-i18n="nav.manage">Manage</div>
                 <a href="store.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                    Store
+                    <span data-i18n="nav.store">Store</span>
                 </a>
                 <a href="account.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Account
+                    <span data-i18n="nav.account">Account</span>
                 </a>
             </div>
         </nav>
@@ -220,10 +220,11 @@
                             <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                         </button>
                         <div class="lang-menu">
-                            <div class="lang-menu-item active">English</div>
-                            <div class="lang-menu-item">简体中文</div>
-                            <div class="lang-menu-item">日本語</div>
-                            <div class="lang-menu-item">한국어</div>
+                    <div class="lang-menu-item active" data-lang="en" onclick="setLang('en')">English</div>
+                    <div class="lang-menu-item" data-lang="es" onclick="setLang('es')">Español</div>
+                    <div class="lang-menu-item" data-lang="hi" onclick="setLang('hi')">हिन्दी</div>
+                    <div class="lang-menu-item" data-lang="pt" onclick="setLang('pt')">Português</div>
+                    <div class="lang-menu-item" data-lang="fr" onclick="setLang('fr')">Français</div>
                         </div>
                     </div>
                     <div class="topbar-icon">
@@ -240,8 +241,8 @@
                                 <div class="user-menu-name">Jxwinter</div>
                                 <div class="user-menu-email">product.igv.test@gmail.com</div>
                             </div>
-                            <a href="account.html" class="user-menu-item">Account Settings</a>
-                            <a href="login.html" class="user-menu-item danger">Sign Out</a>
+                            <a href="account.html" class="user-menu-item" data-i18n="topbar.accountSettings">Account Settings</a>
+                            <a href="login.html" class="user-menu-item danger" data-i18n="topbar.signOut">Sign Out</a>
                         </div>
                     </div>
                 </div>
@@ -273,26 +274,26 @@
                 <!-- Stat Cards -->
                 <div class="stat-row">
                     <div class="stat-card">
-                        <div class="stat-label">Total Sent</div>
+                        <div class="stat-label" data-i18n="orders.totalOrders">Total Sent</div>
                         <div class="stat-value">$56,234.00</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Pending Approval</div>
+                        <div class="stat-label" data-i18n="orders.unresolved">Pending Approval</div>
                         <div class="stat-value" style="color: var(--orange);">5</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Processing</div>
+                        <div class="stat-label" data-i18n="orders.totalReceived">Processing</div>
                         <div class="stat-value">2</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">Failed</div>
+                        <div class="stat-label" data-i18n="orders.failed">Failed</div>
                         <div class="stat-value" style="color: var(--danger);">1</div>
                     </div>
                 </div>
 
                 <!-- Tabs -->
                 <div class="tabs">
-                    <div class="tab active">All <span class="tab-count">28</span></div>
+                    <div class="tab active"><span data-i18n="orders.allOrders">All</span> <span class="tab-count">28</span></div>
                     <div class="tab">Pending Approval <span class="tab-count">5</span></div>
                     <div class="tab">Processing <span class="tab-count">2</span></div>
                     <div class="tab">Completed <span class="tab-count">20</span></div>
@@ -660,5 +661,6 @@
     <script src="../js/dropdown.js" defer></script>
     <script src="../js/drawer.js" defer></script>
     <script src="../js/sidebar.js" defer></script>
+    <script src="../js/i18n.js" defer></script>
 </body>
 </html>

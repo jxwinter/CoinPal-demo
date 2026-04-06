@@ -59,10 +59,11 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M6 9l6 6 6-6"/></svg>
                 </button>
                 <div class="lang-menu">
-                    <div class="lang-menu-item active">English</div>
-                    <div class="lang-menu-item">简体中文</div>
-                    <div class="lang-menu-item">日本語</div>
-                    <div class="lang-menu-item">한국어</div>
+                    <div class="lang-menu-item active" data-lang="en" onclick="setLang('en')">English</div>
+                    <div class="lang-menu-item" data-lang="es" onclick="setLang('es')">Español</div>
+                    <div class="lang-menu-item" data-lang="hi" onclick="setLang('hi')">हिन्दी</div>
+                    <div class="lang-menu-item" data-lang="pt" onclick="setLang('pt')">Português</div>
+                    <div class="lang-menu-item" data-lang="fr" onclick="setLang('fr')">Français</div>
                 </div>
             </div>
         </div>
@@ -70,16 +71,16 @@
         <!-- Step 1: Account Info -->
         <div id="step1View">
             <div class="auth-header">
-                <h1>Create your account</h1>
-                <p>Start accepting crypto payments in minutes</p>
+                <h1 data-i18n="register.title">Create your account</h1>
+                <p data-i18n="register.subtitle">Start accepting crypto payments in minutes</p>
             </div>
 
             <div class="steps-indicator">
-                <div class="step active"><div class="step-circle">1</div><span class="step-label">Account</span></div>
+                <div class="step active"><div class="step-circle">1</div><span class="step-label" data-i18n="register.step1">Account</span></div>
                 <div class="step-line"></div>
-                <div class="step"><div class="step-circle">2</div><span class="step-label">Business</span></div>
+                <div class="step"><div class="step-circle">2</div><span class="step-label" data-i18n="register.step2">Business</span></div>
                 <div class="step-line"></div>
-                <div class="step"><div class="step-circle">3</div><span class="step-label">Verify</span></div>
+                <div class="step"><div class="step-circle">3</div><span class="step-label" data-i18n="register.step3">Verify</span></div>
             </div>
 
             <div id="step1Error" class="msg-error">
@@ -89,22 +90,22 @@
             <form onsubmit="goToStep2(event)">
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="regFirstName">First name</label>
+                        <label class="form-label" for="regFirstName" data-i18n="register.firstName">First name</label>
                         <input type="text" id="regFirstName" class="form-input" placeholder="John" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="regLastName">Last name</label>
+                        <label class="form-label" for="regLastName" data-i18n="register.lastName">Last name</label>
                         <input type="text" id="regLastName" class="form-input" placeholder="Doe" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="regEmail">Business email</label>
+                    <label class="form-label" for="regEmail" data-i18n="register.businessEmail">Business email</label>
                     <input type="email" id="regEmail" class="form-input" placeholder="name@company.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="regPassword">Password</label>
+                    <label class="form-label" for="regPassword" data-i18n="register.password">Password</label>
                     <div class="auth-input-wrapper">
                         <input type="password" id="regPassword" class="form-input" placeholder="At least 8 characters" required minlength="8" oninput="checkPasswordStrength(this.value)" style="padding-right:42px;">
                         <button type="button" class="toggle-pw" onclick="togglePassword('regPassword', this)">
@@ -121,7 +122,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="regConfirmPassword">Confirm password</label>
+                    <label class="form-label" for="regConfirmPassword" data-i18n="register.confirmPassword">Confirm password</label>
                     <div class="auth-input-wrapper">
                         <input type="password" id="regConfirmPassword" class="form-input" placeholder="Re-enter your password" required style="padding-right:42px;">
                         <button type="button" class="toggle-pw" onclick="togglePassword('regConfirmPassword', this)">
@@ -130,10 +131,10 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Continue</button>
+                <button type="submit" class="btn btn-primary btn-block" data-i18n="register.continue">Continue</button>
             </form>
 
-            <div class="auth-divider">or sign up with</div>
+            <div class="auth-divider" data-i18n="register.orSignUpWith">or sign up with</div>
 
             <div class="social-btns">
                 <button class="social-btn">
@@ -147,7 +148,7 @@
             </div>
 
             <div class="auth-prompt">
-                Already have an account? <a href="login.html">Sign In</a>
+                <span data-i18n="register.haveAccount">Already have an account?</span> <a href="login.html" data-i18n="register.signIn">Sign In</a>
             </div>
         </div>
 
@@ -159,27 +160,27 @@
             </div>
 
             <div class="steps-indicator">
-                <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label">Account</span></div>
+                <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label" data-i18n="register.step1">Account</span></div>
                 <div class="step-line done"></div>
-                <div class="step active"><div class="step-circle">2</div><span class="step-label">Business</span></div>
+                <div class="step active"><div class="step-circle">2</div><span class="step-label" data-i18n="register.step2">Business</span></div>
                 <div class="step-line"></div>
-                <div class="step"><div class="step-circle">3</div><span class="step-label">Verify</span></div>
+                <div class="step"><div class="step-circle">3</div><span class="step-label" data-i18n="register.step3">Verify</span></div>
             </div>
 
             <form onsubmit="goToStep3(event)">
                 <div class="form-group">
-                    <label class="form-label" for="regCompany">Company name</label>
+                    <label class="form-label" for="regCompany" data-i18n="register.companyName">Company name</label>
                     <input type="text" id="regCompany" class="form-input" placeholder="Your company or store name" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="regWebsite">Website URL</label>
+                    <label class="form-label" for="regWebsite" data-i18n="register.websiteUrl">Website URL</label>
                     <input type="url" id="regWebsite" class="form-input" placeholder="https://yourstore.com">
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="regIndustry">Industry</label>
+                        <label class="form-label" for="regIndustry" data-i18n="register.industry">Industry</label>
                         <select id="regIndustry" class="form-input" required>
                             <option value="" disabled selected>Select industry</option>
                             <option>E-commerce</option>
@@ -192,7 +193,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="regCountry">Country</label>
+                        <label class="form-label" for="regCountry" data-i18n="register.country">Country</label>
                         <select id="regCountry" class="form-input" required>
                             <option value="" disabled selected>Select country</option>
                             <option>United States</option>
@@ -207,7 +208,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="regVolume">Expected monthly volume</label>
+                    <label class="form-label" for="regVolume" data-i18n="register.monthlyVolume">Expected monthly volume</label>
                     <select id="regVolume" class="form-input">
                         <option value="" disabled selected>Select range</option>
                         <option>Less than $10,000</option>
@@ -220,7 +221,7 @@
 
                 <div style="display:flex;gap:12px;margin-top:4px;">
                     <button type="button" class="btn btn-outline" style="flex:1;" onclick="backToStep1()">&larr; Back</button>
-                    <button type="submit" class="btn btn-primary" style="flex:1;">Continue</button>
+                    <button type="submit" class="btn btn-primary" style="flex:1;" data-i18n="register.continue">Continue</button>
                 </div>
             </form>
         </div>
@@ -229,18 +230,18 @@
         <div id="step3View" style="display:none;">
             <div class="code-view">
                 <div class="steps-indicator" style="margin-bottom:28px;">
-                    <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label">Account</span></div>
+                    <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label" data-i18n="register.step1">Account</span></div>
                     <div class="step-line done"></div>
-                    <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label">Business</span></div>
+                    <div class="step done"><div class="step-circle">&#10003;</div><span class="step-label" data-i18n="register.step2">Business</span></div>
                     <div class="step-line done"></div>
-                    <div class="step active"><div class="step-circle">3</div><span class="step-label">Verify</span></div>
+                    <div class="step active"><div class="step-circle">3</div><span class="step-label" data-i18n="register.step3">Verify</span></div>
                 </div>
 
                 <div class="code-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
                 </div>
-                <h1 style="font-size:26px;font-weight:800;color:var(--grey-900);">Verify your email</h1>
-                <p style="margin-top:8px;font-size:15px;color:var(--grey-500);">We've sent a verification code to <strong id="verifyEmailDisplay">your email</strong></p>
+                <h1 style="font-size:26px;font-weight:800;color:var(--grey-900);" data-i18n="register.verifyEmail">Verify your email</h1>
+                <p style="margin-top:8px;font-size:15px;color:var(--grey-500);" data-i18n="register.verifyDesc">We've sent a verification code to <strong id="verifyEmailDisplay">your email</strong></p>
             </div>
 
             <div id="verifyError" class="msg-error" style="margin-top:16px;">
@@ -260,7 +261,7 @@
                 <input type="text" class="code-input" maxlength="1" oninput="handleRegCodeInput(this,5)" onkeydown="handleRegCodeKeydown(event,5)">
             </div>
 
-            <button class="btn btn-primary btn-block" id="verifyRegBtn" onclick="handleVerifyEmail()">Verify Email</button>
+            <button class="btn btn-primary btn-block" id="verifyRegBtn" onclick="handleVerifyEmail()" data-i18n="register.verifyBtn">Verify Email</button>
 
             <div class="resend-link" style="text-align:center;">
                 Didn't receive the code? <a href="#" onclick="event.preventDefault();alert('A new code has been sent.')">Resend</a>
@@ -361,5 +362,6 @@
         }, 1200);
     }
 </script>
+    <script src="../js/i18n.js" defer></script>
 </body>
 </html>
