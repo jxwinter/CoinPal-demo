@@ -863,12 +863,36 @@ textarea.form-input {
         grid-template-columns: repeat(2, 1fr);
     }
 }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .stat-row {
-        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .stat-card {
+        padding: 14px;
     }
     .stat-value {
         font-size: 20px;
+    }
+    .stat-label {
+        font-size: 11px;
+    }
+    .stat-sub {
+        font-size: 11px;
+    }
+    .page-header {
+        margin-bottom: 12px;
+    }
+}
+@media (max-width: 480px) {
+    .stat-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .stat-card {
+        padding: 12px;
+    }
+    .stat-value {
+        font-size: 18px;
     }
 }
 
@@ -892,17 +916,34 @@ textarea.form-input {
     }
 }
 
-/* ---- Responsive: Forms ---- */
+/* ---- Responsive: Forms & Filters ---- */
+@media (max-width: 768px) {
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .filter-bar {
+        width: 100%;
+    }
+}
 @media (max-width: 600px) {
     .form-row {
         flex-direction: column;
     }
     .filter-bar {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         align-items: stretch;
     }
     .search-box {
         min-width: unset;
+        width: 100%;
+        flex: 0 0 100%;
+    }
+    .filter-select {
+        flex: 1;
+        min-width: 0;
     }
 }
 

@@ -90,6 +90,31 @@
             color: var(--red);
         }
 
+        /* Mobile: metrics grid responsive */
+        @media (max-width: 1024px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .metrics-grid {
+                gap: 10px;
+            }
+            .metric-card {
+                padding: 14px;
+            }
+            .metric-value {
+                font-size: 22px;
+            }
+            .welcome-banner {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+            .welcome-content h1 {
+                font-size: 18px;
+            }
+        }
+
         /* Chart Card */
         .chart-card {
             background-color: white;

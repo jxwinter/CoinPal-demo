@@ -135,6 +135,7 @@
             "assets.transactionHistory": "Transaction History",
 
             // Orders
+            "orders.receiveOrders": "Receive Orders",
             "orders.allOrders": "All Orders",
             "orders.paid": "Paid",
             "orders.unresolved": "Unresolved",
@@ -300,6 +301,7 @@
             "assets.coinBalances": "Soldes des Monnaies",
             "assets.transactionHistory": "Historique des Transactions",
 
+            "orders.receiveOrders": "Commandes Reçues",
             "orders.allOrders": "Toutes les Commandes",
             "orders.paid": "Payées",
             "orders.unresolved": "Non Résolues",
@@ -460,6 +462,7 @@
             "assets.coinBalances": "Coin-Guthaben",
             "assets.transactionHistory": "Transaktionsverlauf",
 
+            "orders.receiveOrders": "Eingehende Bestellungen",
             "orders.allOrders": "Alle Bestellungen",
             "orders.paid": "Bezahlt",
             "orders.unresolved": "Ungelöst",
@@ -620,6 +623,7 @@
             "assets.coinBalances": "Saldi Monete",
             "assets.transactionHistory": "Cronologia Transazioni",
 
+            "orders.receiveOrders": "Ordini Ricevuti",
             "orders.allOrders": "Tutti gli Ordini",
             "orders.paid": "Pagati",
             "orders.unresolved": "Non Risolti",
@@ -780,6 +784,7 @@
             "assets.coinBalances": "Saldos de Monedas",
             "assets.transactionHistory": "Historial de Transacciones",
 
+            "orders.receiveOrders": "Pedidos Recibidos",
             "orders.allOrders": "Todos los Pedidos",
             "orders.paid": "Pagados",
             "orders.unresolved": "Sin Resolver",
@@ -940,6 +945,7 @@
             "assets.coinBalances": "Saldos de Moedas",
             "assets.transactionHistory": "Histórico de Transações",
 
+            "orders.receiveOrders": "Pedidos Recebidos",
             "orders.allOrders": "Todos os Pedidos",
             "orders.paid": "Pagos",
             "orders.unresolved": "Não Resolvidos",
@@ -1100,6 +1106,7 @@
             "assets.coinBalances": "币种余额",
             "assets.transactionHistory": "交易记录",
 
+            "orders.receiveOrders": "收款订单",
             "orders.allOrders": "全部订单",
             "orders.paid": "已支付",
             "orders.unresolved": "未解决",
