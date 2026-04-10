@@ -129,6 +129,12 @@
 @media (max-width: 1024px) {
     .stat-row.three-col { grid-template-columns: repeat(2, 1fr); }
 }
+@media (max-width: 768px) {
+    .stat-row.three-col {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
 @media (max-width: 480px) {
     .stat-row.three-col { grid-template-columns: 1fr; }
 }
@@ -224,7 +230,7 @@
         <main class="main-content">
             <!-- Page Header -->
             <div class="page-header">
-                <h1 class="page-title">Payment Links</h1>
+                <h1 class="page-title" data-i18n="paymentLinks.pageTitle">Payment Links</h1>
                 <div class="page-header-actions">
                     <button class="btn btn-primary" onclick="openDrawer('createLinkDrawer','createLinkOverlay')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -236,15 +242,15 @@
             <!-- Stat Cards -->
             <div class="stat-row three-col">
                 <div class="stat-card">
-                    <div class="stat-label">Active Links</div>
+                    <div class="stat-label" data-i18n="paymentLinks.activeLinks">Active Links</div>
                     <div class="stat-value">12</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Total Collected</div>
+                    <div class="stat-label" data-i18n="paymentLinks.totalCollected">Total Collected</div>
                     <div class="stat-value">$34,582.00</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Conversion Rate</div>
+                    <div class="stat-label" data-i18n="paymentLinks.conversionRate">Conversion Rate</div>
                     <div class="stat-value">78.5%</div>
                 </div>
             </div>

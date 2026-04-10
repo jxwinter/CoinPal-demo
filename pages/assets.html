@@ -602,6 +602,40 @@
                 flex-wrap: wrap;
             }
         }
+
+        @media (max-width: 768px) {
+            .hero-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            .hero-amount {
+                font-size: 28px;
+            }
+            .coins-grid {
+                gap: 10px;
+            }
+            .coin-card {
+                padding: 14px;
+            }
+            .coin-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            .coin-name {
+                font-size: 14px;
+            }
+            .coin-amount {
+                font-size: 14px;
+            }
+            .coin-usd {
+                font-size: 12px;
+            }
+            .section-title {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -696,7 +730,7 @@
 
             <!-- Main Content Area -->
             <main class="main-content">
-                <h1 class="page-title">Assets &amp; Balance</h1>
+                <h1 class="page-title" data-i18n="assets.pageTitle">Assets &amp; Balance</h1>
 
                 <!-- Hero Card -->
                 <div class="hero-card">
@@ -730,8 +764,8 @@
                             </div>
                         </div>
                         <div class="coin-actions">
-                            <a href="#" class="action-link">Deposit</a>
-                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                            <a href="#" class="action-link" data-i18n="assets.deposit">Deposit</a>
+                            <a href="#" class="action-link" data-i18n="assets.withdraw" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
                         </div>
                     </div>
 
@@ -751,8 +785,8 @@
                             </div>
                         </div>
                         <div class="coin-actions">
-                            <a href="#" class="action-link">Deposit</a>
-                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                            <a href="#" class="action-link" data-i18n="assets.deposit">Deposit</a>
+                            <a href="#" class="action-link" data-i18n="assets.withdraw" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
                         </div>
                     </div>
 
@@ -772,8 +806,8 @@
                             </div>
                         </div>
                         <div class="coin-actions">
-                            <a href="#" class="action-link">Deposit</a>
-                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                            <a href="#" class="action-link" data-i18n="assets.deposit">Deposit</a>
+                            <a href="#" class="action-link" data-i18n="assets.withdraw" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
                         </div>
                     </div>
 
@@ -793,8 +827,8 @@
                             </div>
                         </div>
                         <div class="coin-actions">
-                            <a href="#" class="action-link">Deposit</a>
-                            <a href="#" class="action-link" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
+                            <a href="#" class="action-link" data-i18n="assets.deposit">Deposit</a>
+                            <a href="#" class="action-link" data-i18n="assets.withdraw" onclick="openDrawer('withdrawDrawer','withdrawOverlay')">Withdraw</a>
                         </div>
                     </div>
                 </div>
