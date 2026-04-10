@@ -130,9 +130,21 @@
     .stat-row.three-col { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
+    .page-header { margin-bottom: 14px; }
+    .page-title { font-size: 18px; }
     .stat-row.three-col {
-        grid-template-columns: 1fr;
-        gap: 10px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+    .stat-row.three-col .stat-card {
+        padding: 10px;
+    }
+    .stat-row.three-col .stat-label {
+        font-size: 10px;
+    }
+    .stat-row.three-col .stat-value {
+        font-size: 16px;
     }
 }
 @media (max-width: 480px) {
