@@ -96,22 +96,62 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-        @media (max-width: 480px) {
-            .metrics-grid {
-                gap: 10px;
-            }
-            .metric-card {
-                padding: 14px;
-            }
-            .metric-value {
-                font-size: 22px;
-            }
+        @media (max-width: 768px) {
             .welcome-banner {
                 padding: 16px;
                 margin-bottom: 16px;
             }
             .welcome-content h1 {
                 font-size: 18px;
+            }
+            .metrics-grid {
+                gap: 10px;
+                margin-bottom: 16px;
+            }
+            .metric-card {
+                padding: 14px;
+            }
+            .metric-value {
+                font-size: 20px;
+                margin-bottom: 4px;
+            }
+            .metric-label {
+                font-size: 11px;
+                margin-bottom: 4px;
+            }
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                margin-bottom: 16px;
+            }
+            .chart-card {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+            .chart-header {
+                margin-bottom: 16px;
+            }
+            .chart-container {
+                height: 200px;
+            }
+            .orders-table th,
+            .orders-table td {
+                padding: 8px 6px;
+                font-size: 12px;
+            }
+            .action-item {
+                padding: 10px;
+                gap: 8px;
+            }
+            .action-text {
+                font-size: 12px;
+            }
+            .asset-card {
+                padding: 16px;
+            }
+            .asset-title {
+                font-size: 14px;
+                margin-bottom: 12px;
             }
         }
 
