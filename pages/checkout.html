@@ -531,7 +531,7 @@
                         <polyline points="17 21 17 13 7 13 7 21"></polyline>
                         <polyline points="7 3 7 8 15 8"></polyline>
                     </svg>
-                    Save &amp; Publish
+                    <span data-i18n="checkout.savePublish">Save &amp; Publish</span>
                 </button>
             </div>
 
@@ -541,10 +541,10 @@
                 <div class="card">
                     <!-- Brand Identity -->
                     <div class="card-section">
-                        <label class="card-section-title">Brand Identity</label>
+                        <label class="card-section-title" data-i18n="checkout.brandIdentity">Brand Identity</label>
 
                         <div class="form-group">
-                            <label class="form-label">Store Logo</label>
+                            <label class="form-label" data-i18n="checkout.storeLogo">Store Logo</label>
                             <div class="upload-area" onclick="document.getElementById('logoUpload').click()">
                                 <div class="logo-thumbnail">&#x1f5bc;&#xfe0f;</div>
                                 <div class="upload-text">Drag or click to upload</div>
@@ -555,7 +555,7 @@
 
                         <div class="form-group">
                             <div class="toggle-group">
-                                <label class="form-label" style="margin-bottom: 0;">Store Name Display</label>
+                                <label class="form-label" style="margin-bottom: 0;" data-i18n="checkout.storeNameDisplay">Store Name Display</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" checked>
                                     <span class="toggle-slider"></span>
@@ -564,7 +564,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Brand Color</label>
+                            <label class="form-label" data-i18n="checkout.brandColor">Brand Color</label>
                             <div class="color-picker-group">
                                 <input type="color" class="color-picker-input" value="#2563eb" id="brandColor" onchange="updateBrandColor(this.value)">
                                 <span class="color-picker-value" id="colorValue">#2563eb</span>
@@ -574,7 +574,7 @@
 
                     <!-- Theme -->
                     <div class="card-section">
-                        <label class="card-section-title">Theme</label>
+                        <label class="card-section-title" data-i18n="checkout.theme">Theme</label>
                         <div class="theme-options">
                             <div class="theme-card theme-light selected" onclick="selectTheme('light', this)">
                                 <div class="theme-preview"></div>
@@ -593,16 +593,16 @@
 
                     <!-- Payment Page -->
                     <div class="card-section">
-                        <label class="card-section-title">Payment Page</label>
+                        <label class="card-section-title" data-i18n="checkout.paymentPage">Payment Page</label>
 
                         <div class="form-group">
-                            <label class="form-label">Title</label>
+                            <label class="form-label" data-i18n="checkout.title">Title</label>
                             <input type="text" class="form-input" value="Complete Your Payment" id="pageTitle" onchange="updatePreview()">
                         </div>
 
                         <div class="form-group">
                             <div class="toggle-group">
-                                <label class="form-label" style="margin-bottom: 0;">Show Order ID</label>
+                                <label class="form-label" style="margin-bottom: 0;" data-i18n="checkout.showOrderId">Show Order ID</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" checked onchange="updatePreview()">
                                     <span class="toggle-slider"></span>
@@ -612,7 +612,7 @@
 
                         <div class="form-group">
                             <div class="toggle-group">
-                                <label class="form-label" style="margin-bottom: 0;">Show Amount in Fiat</label>
+                                <label class="form-label" style="margin-bottom: 0;" data-i18n="checkout.showAmountFiat">Show Amount in Fiat</label>
                                 <label class="toggle-switch">
                                     <input type="checkbox" checked onchange="updatePreview()">
                                     <span class="toggle-slider"></span>
@@ -621,7 +621,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Supported Languages</label>
+                            <label class="form-label" data-i18n="checkout.supportedLanguages">Supported Languages</label>
                             <div class="chips-group">
                                 <div class="chip selected" onclick="toggleChip(this)">English <span class="chip-checkmark">&#10003;</span></div>
                                 <div class="chip selected" onclick="toggleChip(this)">Chinese <span class="chip-checkmark">&#10003;</span></div>
@@ -633,10 +633,10 @@
 
                     <!-- Footer -->
                     <div class="card-section">
-                        <label class="card-section-title">Footer</label>
+                        <label class="card-section-title" data-i18n="checkout.footer">Footer</label>
 
                         <div class="form-group">
-                            <label class="form-label">Custom Footer Text</label>
+                            <label class="form-label" data-i18n="checkout.customFooterText">Custom Footer Text</label>
                             <input type="text" class="form-input" value="Powered by CoinPal" id="footerText" onchange="updatePreview()">
                         </div>
 

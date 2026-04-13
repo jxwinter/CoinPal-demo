@@ -246,7 +246,7 @@
                 <div class="page-header-actions">
                     <button class="btn btn-primary" onclick="openDrawer('createLinkDrawer','createLinkOverlay')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                        Create Link
+                        <span data-i18n="paymentLinks.createLink">Create Link</span>
                     </button>
                 </div>
             </div>
@@ -293,13 +293,13 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Amount</th>
-                                <th>Currency</th>
-                                <th>Status</th>
-                                <th>Created</th>
-                                <th>Payments</th>
-                                <th>Actions</th>
+                                <th data-i18n="label.name">Name</th>
+                                <th data-i18n="label.amount">Amount</th>
+                                <th data-i18n="label.currency">Currency</th>
+                                <th data-i18n="label.status">Status</th>
+                                <th data-i18n="label.created">Created</th>
+                                <th data-i18n="label.payments">Payments</th>
+                                <th data-i18n="label.actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -435,16 +435,16 @@
 <div class="drawer-overlay" id="createLinkOverlay" data-drawer="createLinkDrawer"></div>
 <div class="drawer" id="createLinkDrawer">
     <div class="drawer-header">
-        <h2 class="drawer-title">Create Payment Link</h2>
+        <h2 class="drawer-title" data-i18n="paymentLinks.createPaymentLink">Create Payment Link</h2>
         <div class="drawer-close" onclick="closeDrawer('createLinkDrawer','createLinkOverlay')">&times;</div>
     </div>
 
     <div class="drawer-content">
         <!-- Basic Info Section -->
         <div class="form-section">
-            <div class="form-section-title">Basic Info</div>
+            <div class="form-section-title" data-i18n="paymentLinks.basicInfo">Basic Info</div>
             <div class="form-group">
-                <label class="form-label">Link Name</label>
+                <label class="form-label" data-i18n="paymentLinks.linkName">Link Name</label>
                 <input type="text" class="form-input" placeholder="e.g., Premium Plan">
             </div>
             <div class="form-group">
@@ -455,9 +455,9 @@
 
         <!-- Payment Settings Section -->
         <div class="form-section">
-            <div class="form-section-title">Payment Settings</div>
+            <div class="form-section-title" data-i18n="paymentLinks.paymentSettings">Payment Settings</div>
             <div class="form-group">
-                <label class="form-label">Amount Type</label>
+                <label class="form-label" data-i18n="paymentLinks.amountType">Amount Type</label>
                 <div class="chips-group">
                     <button class="chip active" data-type="fixed">Fixed Amount</button>
                     <button class="chip" data-type="open">Open Amount</button>
@@ -476,7 +476,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-label">Accepted Currencies</label>
+                <label class="form-label" data-i18n="paymentLinks.acceptedCurrencies">Accepted Currencies</label>
                 <div class="chips-group" id="currencyChips">
                     <button class="chip active">
                         <span class="chip-icon">&#8383;</span>

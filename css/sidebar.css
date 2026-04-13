@@ -79,11 +79,36 @@
 
 .nav-sub {
     padding-left: 44px;
-    font-size: 13px;
+    font-size: 12px;
+    color: #6b7280;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: 0;
+    position: relative;
+}
+.nav-sub::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #4b5563;
+}
+.nav-sub:hover {
+    color: #d1d5db;
+}
+.nav-sub:hover::before {
+    background: #9ca3af;
 }
 .nav-sub.active-sub {
-    color: white;
+    color: #93bbfd;
     font-weight: 600;
+}
+.nav-sub.active-sub::before {
+    background: #93bbfd;
 }
 
 .nav-badge {
