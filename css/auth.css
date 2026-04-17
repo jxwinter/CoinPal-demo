@@ -6,6 +6,9 @@ body.auth-page {
     min-height: 100vh;
     background: #f0f4ff;
 }
+:root[data-theme="dark"] body.auth-page {
+    background: var(--bg-page);
+}
 
 /* ---- Brand Panel (Left) ---- */
 .brand-panel {
@@ -440,11 +443,81 @@ body.auth-page {
 }
 
 /* ---- Auth Language Switcher ---- */
-.auth-lang {
+.auth-controls {
     position: fixed;
     top: 20px;
     right: 24px;
     z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.auth-lang {
+    position: relative;
+}
+.auth-controls .theme-dropdown {
+    position: relative;
+}
+.auth-controls .theme-trigger {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid var(--grey-200);
+    background: var(--bg-card);
+    color: var(--grey-600);
+    cursor: pointer;
+    transition: var(--transition);
+}
+.auth-controls .theme-trigger:hover {
+    border-color: var(--grey-300);
+    color: var(--grey-900);
+}
+.auth-controls .theme-trigger svg {
+    width: 15px;
+    height: 15px;
+}
+.auth-controls .theme-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--grey-200);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    min-width: 150px;
+    z-index: 999;
+    overflow: hidden;
+}
+.auth-controls .theme-dropdown.open .theme-menu {
+    display: block;
+}
+.auth-controls .theme-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--grey-700);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.auth-controls .theme-menu-item:hover {
+    background: var(--grey-50);
+}
+.auth-controls .theme-menu-item.active {
+    color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 600;
+}
+.auth-controls .theme-menu-item svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
 }
 .auth-lang .lang-trigger {
     display: flex;
