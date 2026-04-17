@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="../css/topbar.css">
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/components.css">
+<script src="../js/theme.js"></script>
 <style>
 /* Page-specific styles */
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
@@ -87,7 +88,7 @@
 .kv-input {
     flex: 1; padding: 10px 14px; border: 1px solid var(--grey-200);
     border-radius: var(--radius-sm); font-size: 14px; color: var(--grey-900);
-    outline: none; background: white;
+    outline: none; background: var(--bg-card);
 }
 .kv-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
 .kv-remove {
@@ -119,7 +120,7 @@
     justify-content: center; font-size: 12px; font-weight: 600;
 }
 .preview-button {
-    background: white; color: #667eea; border: none; border-radius: 6px;
+    background: var(--bg-card); color: #667eea; border: none; border-radius: 6px;
     padding: 10px 20px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 12px;
 }
 
@@ -202,6 +203,27 @@
                 <div class="breadcrumb"><span data-i18n="nav.orders">Orders</span> &gt; <strong data-i18n="nav.paymentLinks">Payment Links</strong></div>
             </div>
             <div class="topbar-right">
+                <div class="theme-dropdown">
+                    <button class="theme-trigger" onclick="this.parentElement.classList.toggle('open')" title="Theme">
+                        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                        <svg class="icon-system" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </button>
+                    <div class="theme-menu">
+                        <div class="theme-menu-item" data-mode="light" onclick="setTheme('light')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                            <span data-i18n="theme.light">Light</span>
+                        </div>
+                        <div class="theme-menu-item" data-mode="dark" onclick="setTheme('dark')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                            <span data-i18n="theme.dark">Dark</span>
+                        </div>
+                        <div class="theme-menu-item" data-mode="system" onclick="setTheme('system')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            <span data-i18n="theme.system">System</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="lang-dropdown">
                     <button class="lang-trigger" onclick="this.parentElement.classList.toggle('open')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>

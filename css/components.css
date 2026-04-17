@@ -27,7 +27,7 @@
     background: var(--primary-hover);
 }
 .btn-outline {
-    background: white;
+    background: var(--bg-card);
     color: var(--grey-700);
     border: 1px solid var(--grey-300);
 }
@@ -160,7 +160,7 @@
     margin-bottom: 24px;
 }
 .stat-card {
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--grey-200);
     border-radius: var(--radius);
     padding: 20px;
@@ -188,7 +188,7 @@
 
 /* ---- Cards ---- */
 .card {
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--grey-200);
     border-radius: var(--radius);
     padding: 24px;
@@ -210,7 +210,7 @@
 
 /* ---- Tables ---- */
 .table-wrap {
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--grey-200);
     border-radius: var(--radius);
     overflow: hidden;
@@ -278,7 +278,7 @@ tbody tr.clickable {
     border-radius: var(--radius-sm);
     font-size: 13px;
     color: var(--grey-600);
-    background: white;
+    background: var(--bg-card);
     cursor: pointer;
     transition: var(--transition-fast);
 }
@@ -360,7 +360,7 @@ tbody tr.clickable {
     bottom: 0;
     width: 560px;
     max-width: 100vw;
-    background: white;
+    background: var(--bg-card);
     z-index: 301;
     box-shadow: -4px 0 24px rgba(0,0,0,0.12);
     transition: right 0.3s ease;
@@ -433,7 +433,7 @@ tbody tr.clickable {
     border-radius: var(--radius-sm);
     font-size: 14px;
     color: var(--grey-900);
-    background: white;
+    background: var(--bg-card);
     transition: var(--transition);
     outline: none;
 }
@@ -510,7 +510,7 @@ textarea.form-input {
     border-radius: var(--radius-sm);
     font-size: 14px;
     color: var(--grey-900);
-    background: white;
+    background: var(--bg-card);
     outline: none;
     transition: var(--transition);
 }
@@ -533,7 +533,7 @@ textarea.form-input {
     border-radius: var(--radius-sm);
     font-size: 14px;
     color: var(--grey-700);
-    background: white;
+    background: var(--bg-card);
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -553,7 +553,7 @@ textarea.form-input {
     padding: 8px 14px;
     border: 1px solid var(--grey-200);
     border-radius: var(--radius-sm);
-    background: white;
+    background: var(--bg-card);
     font-size: 14px;
     color: var(--grey-700);
     cursor: pointer;
@@ -584,7 +584,7 @@ textarea.form-input {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: white;
+    background: var(--bg-card);
     border-radius: 50%;
     top: 2px;
     left: 2px;
@@ -621,7 +621,7 @@ textarea.form-input {
     color: var(--grey-600);
     cursor: pointer;
     transition: var(--transition-fast);
-    background: white;
+    background: var(--bg-card);
 }
 .chip:hover {
     border-color: var(--grey-300);
@@ -835,7 +835,7 @@ textarea.form-input {
     padding: 5px 10px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--grey-200);
-    background: white;
+    background: var(--bg-card);
     font-size: 12px;
     font-weight: 500;
     color: var(--grey-600);

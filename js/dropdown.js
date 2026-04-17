@@ -10,4 +10,8 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('.user-dropdown.open').forEach(function(el) {
         if (!el.contains(e.target)) el.classList.remove('open');
     });
+    // Close theme dropdown
+    document.querySelectorAll('.theme-dropdown.open').forEach(function(el) {
+        if (!el.contains(e.target)) el.classList.remove('open');
+    });
 });

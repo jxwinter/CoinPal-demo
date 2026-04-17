@@ -256,7 +256,7 @@ body.auth-page {
     font-size: 14px;
     font-weight: 500;
     color: var(--grey-700);
-    background: white;
+    background: var(--bg-card);
     cursor: pointer;
     transition: var(--transition);
 }
@@ -453,7 +453,7 @@ body.auth-page {
     padding: 6px 12px;
     border: 1px solid var(--grey-200);
     border-radius: 6px;
-    background: white;
+    background: var(--bg-card);
     font-size: 13px;
     color: var(--grey-700);
     cursor: pointer;
@@ -475,7 +475,7 @@ body.auth-page {
     top: 100%;
     right: 0;
     margin-top: 4px;
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--grey-200);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -508,7 +508,7 @@ body.auth-page {
         display: none;
     }
     body.auth-page {
-        background: white;
+        background: var(--bg-card);
     }
     .form-panel {
         padding: 24px 20px;

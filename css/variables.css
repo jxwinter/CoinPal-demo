@@ -1,8 +1,9 @@
 /* ============================================
    CoinPal Design Tokens
+   Supports light + dark themes via [data-theme]
    ============================================ */
 :root {
-    /* Brand */
+    /* Brand - static across themes */
     --primary: #2563eb;
     --primary-hover: #1d4ed8;
     --primary-light: #eff6ff;
@@ -16,10 +17,15 @@
     --warning-light: #fffbeb;
     --orange: #ea580c;
     --orange-light: #fff7ed;
+    --orange-bg: #fff7ed;
     --yellow: #ca8a04;
     --yellow-bg: #fefce8;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
 
-    /* Grey Scale */
+    /* Grey Scale - light mode */
     --grey-50: #f9fafb;
     --grey-100: #f3f4f6;
     --grey-200: #e5e7eb;
@@ -30,6 +36,21 @@
     --grey-700: #374151;
     --grey-800: #1f2937;
     --grey-900: #111827;
+
+    /* Semantic surface tokens */
+    --bg-page: #f5f7fb;
+    --bg-card: #ffffff;
+    --bg-elevated: #ffffff;
+    --bg-subtle: #f9fafb;
+    --bg-hover: #f3f4f6;
+    --border-color: #e5e7eb;
+
+    /* Sidebar is ALWAYS dark regardless of theme */
+    --sidebar-bg: #111827;
+    --sidebar-text: #9ca3af;
+    --sidebar-text-hover: #e5e7eb;
+    --sidebar-item-hover-bg: rgba(255,255,255,0.06);
+    --sidebar-section: #6b7280;
 
     /* Layout */
     --sidebar-w: 220px;
@@ -52,4 +73,49 @@
     /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'Monaco', 'Menlo', 'Consolas', monospace;
+}
+
+/* ============================================
+   Dark Theme Overrides
+   Inverts grey scale + overrides surface tokens
+   ============================================ */
+:root[data-theme="dark"] {
+    /* Brand stays mostly the same, but tint light variants */
+    --primary-light: rgba(37,99,235,0.18);
+
+    /* Semantic lights → transparent tints in dark mode */
+    --success-light: rgba(22,163,74,0.15);
+    --danger-light: rgba(220,38,38,0.15);
+    --warning-light: rgba(245,158,11,0.15);
+    --orange-light: rgba(234,88,12,0.15);
+    --orange-bg: rgba(234,88,12,0.12);
+    --yellow-bg: rgba(202,138,4,0.15);
+    --red-light: rgba(220,38,38,0.15);
+    --green-light: rgba(22,163,74,0.15);
+
+    /* Inverted grey scale for text + subtle bg */
+    --grey-50: #1e293b;
+    --grey-100: #1e293b;
+    --grey-200: #334155;
+    --grey-300: #475569;
+    --grey-400: #64748b;
+    --grey-500: #94a3b8;
+    --grey-600: #cbd5e1;
+    --grey-700: #e2e8f0;
+    --grey-800: #f1f5f9;
+    --grey-900: #f8fafc;
+
+    /* Dark surfaces */
+    --bg-page: #0b1220;
+    --bg-card: #182133;
+    --bg-elevated: #1f2a40;
+    --bg-subtle: #182133;
+    --bg-hover: #1f2a40;
+    --border-color: #2b3650;
+
+    /* Shadows - subtler in dark */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.5);
 }

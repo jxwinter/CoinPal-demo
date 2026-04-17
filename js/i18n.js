@@ -22,6 +22,10 @@
             // Topbar
             "topbar.accountSettings": "Account Settings",
             "topbar.signOut": "Sign Out",
+            "theme.title": "Theme",
+            "theme.light": "Light",
+            "theme.dark": "Dark",
+            "theme.system": "System",
 
             // Breadcrumbs
             "breadcrumb.dashboard": "Dashboard",
@@ -282,6 +286,10 @@
 
             "topbar.accountSettings": "Paramètres du Compte",
             "topbar.signOut": "Déconnexion",
+            "theme.title": "Thème",
+            "theme.light": "Clair",
+            "theme.dark": "Sombre",
+            "theme.system": "Système",
 
             "breadcrumb.dashboard": "Tableau de bord",
 
@@ -520,6 +528,10 @@
 
             "topbar.accountSettings": "Kontoeinstellungen",
             "topbar.signOut": "Abmelden",
+            "theme.title": "Theme",
+            "theme.light": "Hell",
+            "theme.dark": "Dunkel",
+            "theme.system": "System",
 
             "breadcrumb.dashboard": "Dashboard",
 
@@ -758,6 +770,10 @@
 
             "topbar.accountSettings": "Impostazioni Account",
             "topbar.signOut": "Esci",
+            "theme.title": "Tema",
+            "theme.light": "Chiaro",
+            "theme.dark": "Scuro",
+            "theme.system": "Sistema",
 
             "breadcrumb.dashboard": "Dashboard",
 
@@ -996,6 +1012,10 @@
 
             "topbar.accountSettings": "Configuración de Cuenta",
             "topbar.signOut": "Cerrar Sesión",
+            "theme.title": "Tema",
+            "theme.light": "Claro",
+            "theme.dark": "Oscuro",
+            "theme.system": "Sistema",
 
             "breadcrumb.dashboard": "Panel",
 
@@ -1234,6 +1254,10 @@
 
             "topbar.accountSettings": "Configurações da Conta",
             "topbar.signOut": "Sair",
+            "theme.title": "Tema",
+            "theme.light": "Claro",
+            "theme.dark": "Escuro",
+            "theme.system": "Sistema",
 
             "breadcrumb.dashboard": "Painel",
 
@@ -1472,6 +1496,10 @@
 
             "topbar.accountSettings": "账户设置",
             "topbar.signOut": "退出登录",
+            "theme.title": "主题",
+            "theme.light": "浅色",
+            "theme.dark": "深色",
+            "theme.system": "跟随系统",
 
             "breadcrumb.dashboard": "仪表盘",
 

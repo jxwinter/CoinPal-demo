@@ -7,7 +7,7 @@
     left: var(--sidebar-w);
     right: 0;
     height: var(--topbar-h);
-    background: white;
+    background: var(--bg-card);
     border-bottom: 1px solid var(--grey-200);
     display: flex;
     align-items: center;
@@ -92,7 +92,7 @@
     height: 8px;
     background: var(--danger);
     border-radius: 50%;
-    border: 2px solid white;
+    border: 2px solid var(--bg-card);
 }
 
 /* Language Dropdown */
@@ -106,7 +106,7 @@
     padding: 6px 12px;
     border: 1px solid var(--grey-200);
     border-radius: var(--radius-sm);
-    background: white;
+    background: var(--bg-card);
     font-size: 13px;
     color: var(--grey-700);
     cursor: pointer;
@@ -129,7 +129,7 @@
     top: 100%;
     right: 0;
     margin-top: 4px;
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--grey-200);
     border-radius: 8px;
     box-shadow: var(--shadow-lg);
@@ -156,6 +156,81 @@
     font-weight: 600;
 }
 
+/* Theme Dropdown */
+.theme-dropdown {
+    position: relative;
+}
+.theme-trigger {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--grey-600);
+    cursor: pointer;
+    transition: var(--transition);
+    background: transparent;
+    border: none;
+}
+.theme-trigger:hover {
+    background: var(--grey-100);
+    color: var(--grey-900);
+}
+.theme-trigger svg {
+    width: 18px;
+    height: 18px;
+}
+/* Only one icon shown at a time based on user-selected mode (not resolved theme) */
+.theme-trigger .icon-sun,
+.theme-trigger .icon-moon,
+.theme-trigger .icon-system { display: none; }
+:root[data-theme-mode="light"] .theme-trigger .icon-sun { display: inline; }
+:root[data-theme-mode="dark"] .theme-trigger .icon-moon { display: inline; }
+:root:not([data-theme-mode]) .theme-trigger .icon-system,
+:root[data-theme-mode="system"] .theme-trigger .icon-system { display: inline; }
+
+.theme-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    min-width: 150px;
+    z-index: 999;
+    overflow: hidden;
+}
+.theme-dropdown.open .theme-menu {
+    display: block;
+}
+.theme-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    font-size: 13px;
+    color: var(--grey-700);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.theme-menu-item:hover {
+    background: var(--bg-hover);
+}
+.theme-menu-item.active {
+    color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 600;
+}
+.theme-menu-item svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
 /* User Dropdown */
 .user-dropdown {
     position: relative;
@@ -179,7 +254,7 @@
     top: 100%;
     right: 0;
     margin-top: 8px;
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--grey-200);
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
